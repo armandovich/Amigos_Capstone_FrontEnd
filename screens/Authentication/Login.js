@@ -1,8 +1,6 @@
 import { Text, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-// Import const values
 import Constants from '../../helpers/Constants.js';
-// Import styles
 import general from '../../styles/General.js';
 
 
