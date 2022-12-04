@@ -28,11 +28,11 @@ export default function Intro( { navigation } ) {
             <Image style={introS.topImage} source={carImg}/>
         
             <View style={introS.container}>
-                <Pressable onPress={() => goToScreen(Constants.login)} style={[general.btn, general.btnBorder, general.btnMaxWidth, general.pushBottom]}>
+                <Pressable onPress={() => goToScreen(Constants.login)} style={[general.btn, general.btnDark, general.btnMaxWidth, general.pushBottom]}>
                     <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>LOGIN</Text>
                 </Pressable>
 
-                <Pressable onPress={() => goToScreen(Constants.register)} style={[general.btn, general.btnDark, general.btnMaxWidth ]}>
+                <Pressable onPress={() => goToScreen(Constants.register)} style={[general.btn, general.btnBorder, general.btnMaxWidth ]}>
                     <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>REGISTER</Text>
                 </Pressable>
             </View>

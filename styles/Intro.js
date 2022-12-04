@@ -24,6 +24,6 @@ export default StyleSheet.create({
         left: 0,
         width: '100%',
         height: windowHeight,
-        opacity: 0.2
+        opacity: 0.5
     }
 });

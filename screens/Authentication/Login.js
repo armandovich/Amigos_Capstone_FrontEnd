@@ -21,12 +21,12 @@ export default function Login( { navigation } ) {
 
                 <View style={[general.inputGroup, general.pushBottom]}>
                     <FontAwesome style={general.inputIcon} name="user-o" size={24} color="#f9c746" />
-                    <TextInput style={general.input} placeholder='Username'/>
+                    <TextInput style={general.input} placeholder='Username' placeholderTextColor="#FFF" />
                 </View>
 
                 <View style={[general.inputGroup, general.pushBottom]}>
                     <AntDesign style={general.inputIcon} name="eyeo" size={24} color="#f9c746" />
-                    <TextInput style={general.input} placeholder='Password'/>
+                    <TextInput style={general.input} placeholder='Password' placeholderTextColor="#FFF"/>
                 </View>
 
                 <Pressable onPress={() => goToScreen(Constants.login)} style={[general.btn, general.btnDark, general.pushBottom]}>
