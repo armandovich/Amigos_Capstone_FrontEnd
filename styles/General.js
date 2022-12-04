@@ -8,12 +8,24 @@ const ligth = '#fffbea';
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000',
         alignItems: 'flex-start',
         justifyContent: 'flex-start'
     },
+    centerContainer: {
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    headline: {
+        fontSize: 25,
+        width: '100%',
+        marginBottom: 15
+    },
     paddingH: {
         paddingHorizontal: 15
+    },
+    centerTxt: {
+        textAlign: 'center'
     },
     boldTxt: {
         fontWeight: 'bold',
@@ -32,6 +44,8 @@ export default StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 15,
         borderRadius: 8,
+    },
+    btnMaxWidth: {
         maxWidth: 300
     },
     btnTxt: {
@@ -46,5 +60,25 @@ export default StyleSheet.create({
     btnBorder: {
         borderWidth: 2,
         borderColor: ligth
+    },
+    inputGroup: {
+        width: '100%',
+        flexDirection: 'row',
+        position: 'relative',
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        paddingHorizontal: 15,
+        paddingVertical: 10
+    },
+    inputIcon: {
+        position: 'absolute',
+        left: 12,
+        top: 10
+    },
+    input: {
+        paddingLeft: 40,
+        width: '100%',
+        height: '100%',
+        color: black
     }
 });
