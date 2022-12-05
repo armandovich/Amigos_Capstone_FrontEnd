@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Text, Pressable, View, TextInput, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
@@ -8,8 +9,15 @@ import GradiendBF from '../../component/GradientBG.js';
 
 
 export default function Login( { navigation } ) {
+    const [user, setUser] = useState('');
+    const [password, setPassword] = useState('');
+
     const goToScreen = (value) => {
         navigation.navigate({ name: value });
+    }
+
+    const performLogin = () => {
+        // TO - DO
     }
 
     return (
@@ -21,12 +29,16 @@ export default function Login( { navigation } ) {
 
                 <View style={[general.inputGroup, general.pushBottom]}>
                     <FontAwesome style={general.inputIcon} name="user-o" size={24} color="#f9c746" />
-                    <TextInput style={general.input} placeholder='Username' placeholderTextColor="#FFF" />
+                    <TextInput style={general.input} 
+                    onChangeText={setUser} value={user} 
+                    placeholder='Username' placeholderTextColor="#FFF" />
                 </View>
 
                 <View style={[general.inputGroup, general.pushBottom]}>
                     <AntDesign style={general.inputIcon} name="eyeo" size={24} color="#f9c746" />
-                    <TextInput style={general.input} placeholder='Password' placeholderTextColor="#FFF"/>
+                    <TextInput style={general.input} 
+                    onChangeText={setPassword} value={password} 
+                    placeholder='Password' placeholderTextColor="#FFF"/>
                 </View>
 
                 <Pressable onPress={() => goToScreen(Constants.footer)} style={[general.btn, general.btnDark, general.pushBottom]}>
