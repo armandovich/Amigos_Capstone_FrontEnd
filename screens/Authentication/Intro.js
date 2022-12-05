@@ -22,8 +22,7 @@ export default function Intro( { navigation } ) {
             shouldPlay
             useNativeControls={ false }
             resizeMode="cover"
-            isLooping
-            />
+            isLooping/>
 
             <Image style={introS.topImage} source={carImg}/>
         

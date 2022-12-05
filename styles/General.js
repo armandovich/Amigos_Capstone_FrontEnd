@@ -114,5 +114,15 @@ export default StyleSheet.create({
     dropdownSelectTxt: {
         color: yellow,
         fontWeight: 'bold'
-    }
+    },
+    bottomNav: { 
+        borderTopColor:  'transparent',
+        height: 60,
+        paddingTop: 5,
+        paddingBottom: 5,
+        position: 'absolute',
+        bottom: 0,
+        backgroundColor: 'transparent' ,
+        elevation: 0
+    },
 });

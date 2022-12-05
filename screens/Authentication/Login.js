@@ -29,7 +29,7 @@ export default function Login( { navigation } ) {
                     <TextInput style={general.input} placeholder='Password' placeholderTextColor="#FFF"/>
                 </View>
 
-                <Pressable onPress={() => goToScreen(Constants.login)} style={[general.btn, general.btnDark, general.pushBottom]}>
+                <Pressable onPress={() => goToScreen(Constants.footer)} style={[general.btn, general.btnDark, general.pushBottom]}>
                     <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>LOGIN</Text>
                 </Pressable>
 
