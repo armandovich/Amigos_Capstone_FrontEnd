@@ -19,7 +19,7 @@ export default function App() {
           <AuthenticationNav/>
         </> : <></>}
 
-        <StatusBar style="light" />
+        <StatusBar style="light" hidden/>
       </NavigationContainer>
     </SafeAreaProvider>
   );

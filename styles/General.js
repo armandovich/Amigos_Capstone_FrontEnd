@@ -19,7 +19,7 @@ export default StyleSheet.create({
     headline: {
         fontSize: 30,
         width: '100%',
-        marginBottom: 15
+        marginVertical: 15
     },
     paddingH: {
         paddingHorizontal: 15

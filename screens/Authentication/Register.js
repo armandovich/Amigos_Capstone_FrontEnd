@@ -11,6 +11,12 @@ import general from '../../styles/General.js';
 import GradiendBF from '../../component/GradientBG.js';
 
 export default function Register( { navigation } ) {
+    const [fName, setFName] = useState('');
+    const [lName, setLName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [verify, setVerify] = useState('');
+    // Dropdown attributes
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
     const [countryList, setCountryList] = useState([
@@ -23,6 +29,10 @@ export default function Register( { navigation } ) {
         navigation.navigate({ name: value });
     }
 
+    const performRegister = () => {
+        // TO - DO
+    }
+
     return (
         <SafeAreaView>
             <GradiendBF/>
@@ -33,12 +43,16 @@ export default function Register( { navigation } ) {
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <FontAwesome style={general.inputIcon} name="user-o" size={24} color="#f9c746" />
-                        <TextInput style={general.input} placeholder='First Name' placeholderTextColor="#FFF" />
+                        <TextInput style={general.input} 
+                        onChangeText={setFName} value={fName} 
+                        placeholder='First Name' placeholderTextColor="#FFF" />
                     </View>
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <FontAwesome style={general.inputIcon} name="user-o" size={24} color="#f9c746" />
-                        <TextInput style={general.input} placeholder='Lasst Name' placeholderTextColor="#FFF" />
+                        <TextInput style={general.input} 
+                        onChange={setLName} value={lName} 
+                        placeholder='Lasst Name' placeholderTextColor="#FFF" />
                     </View>
 
                     <View style={[general.dropdownGroup]}>
@@ -64,17 +78,23 @@ export default function Register( { navigation } ) {
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <MaterialCommunityIcons style={general.inputIcon} name="email-outline" size={24} color="#f9c746" />
-                        <TextInput style={general.input} placeholder='Email' placeholderTextColor="#FFF" />
+                        <TextInput style={general.input} 
+                        onChange={setEmail} value={email} 
+                        placeholder='Email' placeholderTextColor="#FFF" />
                     </View>
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <AntDesign style={general.inputIcon} name="eyeo" size={24} color="#f9c746" />
-                        <TextInput style={general.input} placeholder='Password' placeholderTextColor="#FFF" />
+                        <TextInput style={general.input} 
+                        onChange={setPassword} value={password} 
+                        placeholder='Password' placeholderTextColor="#FFF" />
                     </View>
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <AntDesign style={general.inputIcon} name="eyeo" size={24} color="#f9c746" />
-                        <TextInput style={general.input} placeholder='Verify Password' placeholderTextColor="#FFF" />
+                        <TextInput style={general.input} 
+                        onChange={setVerify} value={verify} 
+                        placeholder='Verify Password' placeholderTextColor="#FFF" />
                     </View>
 
                     <Pressable onPress={() => goToScreen(Constants.register)} style={[general.btn, general.btnDark, general.pushBottom]}>
