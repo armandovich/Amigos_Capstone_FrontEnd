@@ -2,7 +2,7 @@ import { Video } from 'expo-av';
 import { Text, Image, Pressable, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Constants from '../../helpers/Constants.js';
-import carImg from '../../assets/car.png';
+import logo from '../../assets/logo.png';
 import introS from '../../styles/Intro.js';
 import general from '../../styles/General.js';
 import GradiendBF from '../../component/GradientBG.js';
@@ -24,9 +24,9 @@ export default function Intro( { navigation } ) {
             resizeMode="cover"
             isLooping/>
 
-            <Image style={introS.topImage} source={carImg}/>
-        
             <View style={introS.container}>
+                <Image style={introS.topImage} source={logo}/>
+
                 <Pressable onPress={() => goToScreen(Constants.login)} style={[general.btn, general.btnDark, general.btnMaxWidth, general.pushBottom]}>
                     <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>LOGIN</Text>
                 </Pressable>

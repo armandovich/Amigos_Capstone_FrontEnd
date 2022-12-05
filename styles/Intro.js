@@ -10,13 +10,11 @@ export default StyleSheet.create({
         alignItems: 'center'
     },
     topImage: {
-        position: 'absolute',
         resizeMode: 'contain',
-        top: 60,
-        left: windowWidth * 0.25,
-        width: windowWidth * 0.5,
-        height: windowHeight * 0.35,
-        opacity: 0
+        width: '100%',
+        height: windowWidth * 0.3,
+        marginBottom: 30,
+        opacity: 1
     },
     video: {
         position: 'absolute',

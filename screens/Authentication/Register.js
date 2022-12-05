@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, ScrollView, View, TextInput, Pressable } from 'react-native';
 import DropDownPicker from "react-native-dropdown-picker";
