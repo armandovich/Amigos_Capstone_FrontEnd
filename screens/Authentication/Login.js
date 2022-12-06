@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Text, Pressable, View, TextInput, ScrollView } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Constants from '../../helpers/Constants.js';
 import general from '../../styles/General.js';

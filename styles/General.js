@@ -31,6 +31,10 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         fontFamily: 'RobotoBold'
     },
+    yellowTxt: {
+        color: yellow,
+        fontFamily:'Roboto'
+    },
     whiteTxt: {
         color: ligth,
         fontFamily:'Roboto'
@@ -50,6 +54,9 @@ export default StyleSheet.create({
     },
     btnTxt: {
         textAlign: 'center'
+    },
+    pushTop: {
+        marginTop: 15
     },
     pushBottom: {
         marginBottom: 15
@@ -125,4 +132,10 @@ export default StyleSheet.create({
         backgroundColor: 'transparent' ,
         elevation: 0
     },
+    flexRow: {
+        flexDirection: 'row'
+    },
+    flexEven: {
+        justifyContent: 'space-between'
+    }
 });
