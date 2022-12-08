@@ -14,12 +14,14 @@ export default StyleSheet.create({
     centerContainer: {
         height: '100%',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     headline: {
         fontSize: 30,
         width: '100%',
-        marginVertical: 15
+        marginVertical: 15,
+        fontWeight: 'bold',
+        fontFamily: 'RobotoBold'
     },
     paddingH: {
         paddingHorizontal: 15
@@ -154,6 +156,31 @@ export default StyleSheet.create({
         bottom: 0,
         backgroundColor: 'transparent' ,
         elevation: 0
+    },
+    avoidFooter: {
+        marginBottom: 60
+    },
+    topNav: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        borderBottomWidth: 1,
+        borderColor: brown
+    },
+    topLine: {
+        width: '100%',
+        left: 0,
+        top: 0,
+        height: 1,
+        backgroundColor: brown,
+    },
+    bottomLine: {
+        width: '100%',
+        left: 0,
+        bottom: 60,
+        height: 1,
+        backgroundColor: brown,
     },
     flexRow: {
         flexDirection: 'row'
