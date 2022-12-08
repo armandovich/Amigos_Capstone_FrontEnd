@@ -19,9 +19,9 @@ export default function Register( { navigation } ) {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
     const [countryList, setCountryList] = useState([
-        { label: 'Country A', value: 0 },
-        { label: 'Country B', value: 1 },
-        { label: 'Country C', value: 2 }
+        { label: 'Canada', value: 0 },
+        { label: 'United States', value: 1 },
+        { label: 'Dominican Republic', value: 2 }
     ]);
 
     const goToScreen = (value) => {
