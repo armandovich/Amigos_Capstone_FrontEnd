@@ -6,6 +6,7 @@ export default {
     footer: 'Footer',
     home: 'Home',
     chat: 'Chat',
+    msg: 'Messages',
     profile: 'Profile',
     carDetail: 'CarDetail',
     rent: 'Rent',

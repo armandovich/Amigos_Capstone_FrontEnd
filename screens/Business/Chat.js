@@ -1,10 +1,11 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, ScrollView, View, FlatList } from 'react-native';
+import { Text, Pressable, View, FlatList } from 'react-native';
 import GradiendBF from '../../component/GradientBG.js';
-import CoverBG from '../../component/BottomCover.js';
+import Constants from '../../helpers/Constants.js';
 import general from '../../styles/General.js';
 import chatS from '../../styles/Chat.js';
-const chatList = [
+
+const msgs = [
     { user: 'User Name', host: 'Host Name 1', msg: 'Return my car!! Will call the police!!' },
     { user: 'User Name', host: 'Host Name 2', msg: 'You can ick up at this dir..' },
     { user: 'User Name', host: 'Host Name 2', msg: 'You can ick up at this dir..' },
@@ -18,26 +19,31 @@ const chatList = [
     { user: 'User Name', host: 'Host Name 2', msg: 'You can ick up at this dir..' },
 ];
 
-export default function Profile( { navigation } ) {
+export default function Messages( { navigation } ) {
+    const openMsg = (index) => {
+        navigation.navigate(Constants.msg, { msgs: msgs[index] })
+    }
+
     return (
         <SafeAreaView>
             <GradiendBF/>
 
-            <Text style={[general.whiteTxt, general.headline, general.paddingH]}>Chats</Text>
-            
-            <FlatList style={[general.fullW, general.paddingH]}
-            data={chatList} 
+            <FlatList style={[general.fullW, general.paddingH, chatS.chatPushTop]}
+            data={msgs} 
             renderItem={({ item, index }) => 
-                <View style={chatS.card}>
+                <Pressable onPress={() => openMsg(index)} style={chatS.card}>
                     <View style={chatS.avatar}></View>
                     <View>
                         <Text style={chatS.resiver}>{item.host}</Text>
                         <Text style={chatS.msg}>{item.msg}</Text>
                     </View>
-                </View>
+                </Pressable>
+            }
+            ListFooterComponent={
+                <View style={general.avoidFooter}></View>
             }/>
 
-            <CoverBG/>
+            <View style={general.bottomLine}></View>
         </SafeAreaView>
     );
 }

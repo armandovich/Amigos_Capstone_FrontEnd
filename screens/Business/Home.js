@@ -4,7 +4,6 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Text, View, FlatList, Image, Pressable, TextInput } from 'react-native';
 import Constants from '../../helpers/Constants.js';
 import GradiendBF from '../../component/GradientBG.js';
-import CoverBG from '../../component/BottomCover.js';
 import TopGradien from '../../component/CardGradient.js';
 import Stars from '../../component/Stars.js';
 
@@ -133,7 +132,7 @@ export default function Profile( { navigation } ) {
             
             <View style={[general.centerContainer]}>
                 <View style={[general.fullW]}>
-                    <FlatList style={[general.fullW]}
+                    <FlatList style={[general.fullW, general.avoidFooter]}
                     nestedScrollEnabled
                     ListHeaderComponent={
                         <View style={[general.fullW, general.pushTop]}>
@@ -209,13 +208,13 @@ export default function Profile( { navigation } ) {
                         </Pressable>
                     }
                     ListFooterComponent={
-                        <View style={{marginTop: 100}}></View>
+                        <View style={general.avoidFooter}></View>
                     }/>
 
                 </View>
             </View>
 
-            <CoverBG/>
+            <View style={general.bottomLine}></View>
         </SafeAreaView>
     );
 }
