@@ -7,6 +7,7 @@ import ResetPassword from '../screens/Authentication/ResetPassword.js';
 import FooterNav from './FooterNav.js';
 import CarDetail from '../screens/Business/CarDetail.js';
 import Messages from '../screens/Business/Messages.js';
+import RentCrud from "../screens/Admin/RentCrud.js";
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ export default function MainNav() {
           <Stack.Screen name={Constants.footer} component={FooterNav}/>
           <Stack.Screen name={Constants.carDetail} component={CarDetail}/>
           <Stack.Screen name={Constants.msg} component={Messages}/>
+          <Stack.Screen name={Constants.rentcrud} component={RentCrud}/>
         </Stack.Navigator>
     );
 }

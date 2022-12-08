@@ -10,5 +10,6 @@ export default {
     profile: 'Profile',
     carDetail: 'CarDetail',
     rent: 'Rent',
+    rentcrud: 'RentCrud',
     trip: 'Trip'
 }
