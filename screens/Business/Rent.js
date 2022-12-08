@@ -3,16 +3,14 @@ import { Text, ScrollView, View } from 'react-native';
 import GradiendBF from '../../component/GradientBG.js';
 import general from '../../styles/General.js';
 
-const chatList = [];
-
-export default function Profile( { navigation } ) {
+export default function Rent( { navigation } ) {
     return (
         <SafeAreaView>
             <GradiendBF/>
             
             <View style={[general.centerContainer]}>
                 <ScrollView style={[general.fullW, general.paddingH]}>
-                    <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Chat</Text>
+                    <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Rent</Text>
                 </ScrollView>
             </View>
         </SafeAreaView>

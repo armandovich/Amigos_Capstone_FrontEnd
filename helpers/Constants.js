@@ -7,5 +7,7 @@ export default {
     home: 'Home',
     chat: 'Chat',
     profile: 'Profile',
-    carDetail: 'CarDetail'
+    carDetail: 'CarDetail',
+    rent: 'Rent',
+    trip: 'Trip'
 }
