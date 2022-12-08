@@ -9,6 +9,7 @@ export default {
     msg: 'Messages',
     profile: 'Profile',
     carDetail: 'CarDetail',
-    rent: 'Rent',
+    rent: 'Cars',
+    rentcrud: 'RentCrud',
     trip: 'Trip'
 }
