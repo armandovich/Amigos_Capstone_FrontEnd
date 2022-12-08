@@ -90,6 +90,18 @@ export default StyleSheet.create({
         height: '100%',
         color: '#fff'
     },
+    datePickerCont: {
+        width: '45%'
+    },
+    datePicker: {
+        width: '100%',
+        backgroundColor: '#4d4640',
+        borderColor: '#857f75',
+        borderWidth: 1,
+        borderRadius: 8,
+        marginBottom: 15,
+        zIndex: 1
+    },
     dropdownGroup: {
         width: '100%',
         backgroundColor: '#4d4640',
@@ -98,6 +110,17 @@ export default StyleSheet.create({
         borderRadius: 8,
         marginBottom: 15,
         zIndex: 1
+    },
+    datePickerLabel: {
+        fontSize: 10,
+        color: ligth,
+        marginBottom: 5
+    },
+    datePickerTxt: {
+        color: ligth,
+        paddingVertical: 10,
+        paddingLeft: 50,
+        paddingRight: 15
     },
     dropdown: {
         color: '#fff',

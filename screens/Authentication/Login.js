@@ -24,7 +24,7 @@ export default function Login( { navigation } ) {
             <GradiendBF/>
 
             <View style={[general.centerContainer, general.paddingH]}>
-                <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Sing In</Text>
+                <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Sign In</Text>
 
                 <View style={[general.inputGroup, general.pushBottom]}>
                     <FontAwesome style={general.inputIcon} name="user-o" size={24} color="#f9c746" />

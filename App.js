@@ -2,7 +2,7 @@ import { useFonts } from "@use-expo/font";
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
-import AuthenticationNav from './navigations/AuthenticationNav.js';
+import MainNav from './navigations/MainNav.js';
 
 const customFonts = {
   Roboto: require('./assets/fonts/RobotoMono-Regular.ttf'),
@@ -16,7 +16,7 @@ export default function App() {
     <SafeAreaProvider>
       <NavigationContainer theme={DarkTheme}>
         { isLoaded ? <>
-          <AuthenticationNav/>
+          <MainNav/>
         </> : <></>}
 
         <StatusBar style="light" hidden/>

@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AntDesign, FontAwesome } from '@expo/vector-icons';
-import { Text, ScrollView, View, FlatList, Image, Pressable, TextInput } from 'react-native';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { Text, View, FlatList, Image, Pressable, TextInput } from 'react-native';
+import Constants from '../../helpers/Constants.js';
 import GradiendBF from '../../component/GradientBG.js';
 import CoverBG from '../../component/BottomCover.js';
 import TopGradien from '../../component/CardGradient.js';
 import Stars from '../../component/Stars.js';
+
 import general from '../../styles/General.js';
 import homeS from '../../styles/Home.js';
+
 import logo1 from '../../assets/icons/audi.png';
 import logo2 from '../../assets/icons/bmw.png';
 import logo3 from '../../assets/icons/fiat.png';
@@ -16,7 +19,6 @@ import logo5 from '../../assets/icons/lamborhini.png';
 import logo6 from '../../assets/icons/mercedes.png';
 import logo7 from '../../assets/icons/nissan.png';
 import logo8 from '../../assets/icons/toyota.png';
-
 import car from '../../assets/car.jpg';
 
 const filterList = [
@@ -109,11 +111,20 @@ const temCars = [
 ];
 
 export default function Profile( { navigation } ) {
+    const [filterOn, setFilterOn] = useState(false);
     const [selecetedBrand, setSelectedBrand] = useState(0);
     const [word, setWord] = useState('');
 
+    const openCar = (index) => {
+        navigation.navigate(Constants.carDetail, { car: temCars[index] })
+    }
+
     const selectBrand = (index) => {
         setSelectedBrand(index);
+    }
+
+    const toggleFilter = () => {
+        setFilterOn(!filterOn);
     }
 
     return (
@@ -127,14 +138,26 @@ export default function Profile( { navigation } ) {
                     ListHeaderComponent={
                         <View style={[general.fullW, general.pushTop]}>
                             <View style={[general.paddingH, general.pushBottom]}>
-                                <View style={[general.inputGroup, general.pushBottom]}>
-                                    <AntDesign style={general.inputIcon} name="search1" size={24} color="#f9c746" />
-                                    <TextInput style={general.input} 
-                                    onChangeText={setWord} value={word} 
-                                    placeholder='Search' placeholderTextColor="#FFF" />
+                                <View style={[general.fullW, general.flexRow]}>
+                                    <View style={[general.inputGroup, general.pushBottom, homeS.searchBar]}>
+                                        <AntDesign style={general.inputIcon} name="search1" size={24} color="#f9c746" />
+                                        <TextInput style={general.input} 
+                                        onChangeText={setWord} value={word} 
+                                        placeholder='Search' placeholderTextColor="#FFF" />
+                                    </View>
+
+                                    <Pressable onPress={toggleFilter} style={homeS.filterToggle}>
+                                        {filterOn ? 
+                                            <AntDesign name="close" size={24} color="#f9c746" />
+                                        :
+                                            <Ionicons name="options" size={24} color="#f9c746" />
+                                        }
+                                    </Pressable>
                                 </View>
 
-                                <Text style={general.whiteTxt}>Car Brands:</Text>
+                                <View>
+                                    <Text style={general.whiteTxt}>Car Brands:</Text>
+                                </View>
                             </View>
 
 
@@ -159,7 +182,8 @@ export default function Profile( { navigation } ) {
                     numColumns={2}
                     data={temCars} 
                     renderItem={({ item, index }) => 
-                        <View style={[homeS.carCard, index % 2 == 1 ? homeS.carCardR : homeS.carCardL]}>
+                        <Pressable onPress={() => openCar(index)}
+                        style={[homeS.carCard, index % 2 == 1 ? homeS.carCardR : homeS.carCardL]}>
                             <View style={homeS.cardMedia}>
                                 <Image style={homeS.carImg} source={car}/>
 
@@ -171,19 +195,18 @@ export default function Profile( { navigation } ) {
                             </View>
 
                             <View style={[general.fullW, general.flexRow, homeS.carPrice]}>
-                                <Text style={[general.whiteTxt]}>$</Text>
-                                <Text style={[general.yellowTxt, general.boldTxt]}>{item.price}</Text>
-                                <Text style={[general.whiteTxt]}>/day</Text>
+                                <Text style={[general.whiteTxt, general.boldTxt]}>${item.price}</Text>
+                                <Text style={[general.whiteTxt]}> / day</Text>
                             </View>
                             
-                            <View style={homeS.carRate}>
-                                <Stars score={item.score}/>
-                                <Stars score={item.score - 1}/>
-                                <Stars score={item.score - 2}/>
-                                <Stars score={item.score - 3}/>
-                                <Stars score={item.score - 4}/>
+                            <View style={[homeS.carRate]}>
+                                <Stars score={item.score} size={16} color={'#f9c746'}/>
+                                <Stars score={item.score - 1} size={16} color={'#f9c746'}/>
+                                <Stars score={item.score - 2} size={16} color={'#f9c746'}/>
+                                <Stars score={item.score - 3} size={16} color={'#f9c746'}/>
+                                <Stars score={item.score - 4} size={16} color={'#f9c746'}/>
                             </View>
-                        </View>
+                        </Pressable>
                     }
                     ListFooterComponent={
                         <View style={{marginTop: 100}}></View>

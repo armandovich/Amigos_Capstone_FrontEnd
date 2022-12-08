@@ -5,15 +5,15 @@ export default function Stars(props) {
     return (
         <View>
             {props.score >= 1 ?
-            <FontAwesome style={{marginRight: 5}} name="star" size={20} color="#f9c746" />
+            <FontAwesome style={{marginRight: 5}} name="star" size={props.size} color={props.color} />
             :<></>}
 
             {props.score > 0 && props.score < 1 ?
-            <FontAwesome style={{marginRight: 5}} name="star-half-full" size={20} color="#f9c746" />
+            <FontAwesome style={{marginRight: 5}} name="star-half-full" size={props.size} color={props.color} />
             :<></>}
 
              {props.score <= 0 ?
-            <FontAwesome style={{marginRight: 5}} name="star-o" size={20} color="#f9c746" />
+            <FontAwesome style={{marginRight: 5}} name="star-o" size={props.size} color={'#857f75'} />
             :<></>}
         </View>
     );

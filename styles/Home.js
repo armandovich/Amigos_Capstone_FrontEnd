@@ -77,10 +77,24 @@ export default StyleSheet.create({
     carRate: {
         flexDirection: 'row',
         paddingHorizontal: 5,
-        paddingTop: 5,
+        paddingTop: 10,
         paddingBottom: 10,
         width: '100%',
         alignItems: 'flex-start',
         justifyContent: 'flex-start'
+    },
+    searchBar: {
+        flex: 1
+    },
+    filterToggle: {
+        backgroundColor: '#4d4640',
+        borderColor: '#857f75',
+        borderWidth: 1,
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 30,
+        width: 50,
+        height: 50,
     }
 });

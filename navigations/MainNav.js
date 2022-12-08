@@ -5,10 +5,11 @@ import Login from '../screens/Authentication/Login.js';
 import Register from '../screens/Authentication/Register.js';
 import ResetPassword from '../screens/Authentication/ResetPassword.js';
 import FooterNav from './FooterNav.js';
+import CarDetail from '../screens/Business/CarDetail.js';
 
 const Stack = createStackNavigator();
 
-export default function AuthenticationNav() {
+export default function MainNav() {
     return (
         <Stack.Navigator screenOptions={ { headerShown: false, headerStyle: { backgroundColor: '#fff' }} }>
           <Stack.Screen name={Constants.intro} component={Intro}/>
@@ -16,6 +17,7 @@ export default function AuthenticationNav() {
           <Stack.Screen name={Constants.register} component={Register}/>
           <Stack.Screen name={Constants.reset} component={ResetPassword}/>
           <Stack.Screen name={Constants.footer} component={FooterNav}/>
+          <Stack.Screen name={Constants.carDetail} component={CarDetail}/>
         </Stack.Navigator>
     );
 }
