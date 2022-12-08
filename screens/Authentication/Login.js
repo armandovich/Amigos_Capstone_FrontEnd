@@ -5,7 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Constants from '../../helpers/Constants.js';
 import general from '../../styles/General.js';
 import GradiendBF from '../../component/GradientBG.js';
+import fetchLink from "../../helpers/fetchLink.js";
 
+let userLoggedIn;
 
 export default function Login( { navigation } ) {
     const [user, setUser] = useState('');
@@ -16,7 +18,28 @@ export default function Login( { navigation } ) {
     }
 
     const performLogin = () => {
-        // TO - DO
+            if(user == '' || password == ''){
+              alert("Please fill in all the inputs!")
+            }else{
+              const userData = {
+                email: user,
+                password:password,
+              }
+              
+               //THIS IS FOR ANDROID EMULATOR! MIGHT BE DIFFERENT FOR OTHER DEVICES.
+              fetch(fetchLink + '/api/user/?email='+ userData.email + "&password=" + userData.password, {
+                  method: 'GET',
+              }).then(res => res.json()).then(data => {
+                if(data.message == "User not found."){
+                  alert("Please check your email and password.")
+                }else{
+                  console.log(data)
+                  userLoggedIn = data
+                  alert("Login successful!")
+                  goToScreen(Constants.footer)
+                }
+              });
+            }
     }
 
     return (
@@ -37,10 +60,10 @@ export default function Login( { navigation } ) {
                     <AntDesign style={general.inputIcon} name="eyeo" size={24} color="#f9c746" />
                     <TextInput style={general.input} 
                     onChangeText={setPassword} value={password} 
-                    placeholder='Password' placeholderTextColor="#FFF"/>
+                    placeholder='Password' placeholderTextColor="#FFF" secureTextEntry/>
                 </View>
 
-                <Pressable onPress={() => goToScreen(Constants.footer)} style={[general.btn, general.btnDark, general.pushBottom]}>
+                <Pressable onPress={() => performLogin()} style={[general.btn, general.btnDark, general.pushBottom]}>
                     <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>LOGIN</Text>
                 </Pressable>
 
@@ -51,3 +74,4 @@ export default function Login( { navigation } ) {
         </SafeAreaView>
     );
 }
+export {userLoggedIn}

@@ -6,10 +6,12 @@ import { AntDesign, FontAwesome, Fontisto, MaterialCommunityIcons } from '@expo/
 import Constants from '../../helpers/Constants.js';
 import general from '../../styles/General.js';
 import GradiendBF from '../../component/GradientBG.js';
+import fetchLink from "../../helpers/fetchLink.js";
+import { userLoggedIn } from "./Intro.js";
 
 export default function Register( { navigation } ) {
     const [fName, setFName] = useState('');
-    const [lName, setLName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [verify, setVerify] = useState('');
@@ -27,13 +29,45 @@ export default function Register( { navigation } ) {
     }
 
     const performRegister = () => {
-        // TO - DO
+        if(email == '' || password == '' || fName == '' || lastName == '' || verify == '' || value == null){
+            alert("Please fill all the inputs!")
+        }else if(password != verify){
+            alert("Passwords are not the same!")
+        }else if(password.length <6){
+            alert("Password must be at least 6 characters!")
+        }else{
+            let cntry = ""
+            for(let i=0;i<countryList.length;i++){
+                if(countryList[i].value == value){
+                    cntry = countryList[i].label
+                    break
+                }
+            }
+            const userData = {
+                first_name: fName,
+                last_name: lastName,
+                country: cntry,
+                email: email,
+                password:password,
+            }
+
+             //THIS IS FOR ANDROID EMULATOR! MIGHT BE DIFFERENT FOR OTHER DEVICES.
+            fetch(fetchLink + '/api/user/', { 
+            method: 'POST',
+            body: JSON.stringify(userData),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            }).then(res => res.json()).then(data => console.log(data));
+            alert("Registration was successful! You can now Sign in.")
+            //goToScreen(Constants.footer)
+            navigation.replace(Constants.login);
     }
+}
 
     return (
         <SafeAreaView>
             <GradiendBF/>
-            
             <View style={[general.centerContainer]}>
                 <ScrollView style={[general.fullW, general.paddingH]}>
                     <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Sing Up</Text>
@@ -41,15 +75,15 @@ export default function Register( { navigation } ) {
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <FontAwesome style={general.inputIcon} name="user-o" size={24} color="#f9c746" />
                         <TextInput style={general.input} 
-                        onChangeText={setFName} value={fName} 
+                        onChangeText={text => setFName(text)}
                         placeholder='First Name' placeholderTextColor="#FFF" />
                     </View>
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <FontAwesome style={general.inputIcon} name="user-o" size={24} color="#f9c746" />
                         <TextInput style={general.input} 
-                        onChange={setLName} value={lName} 
-                        placeholder='Lasst Name' placeholderTextColor="#FFF" />
+                        onChangeText={text => setLastName(text)}
+                        placeholder='Last Name' placeholderTextColor="#FFF" />
                     </View>
 
                     <View style={[general.dropdownGroup]}>
@@ -76,25 +110,25 @@ export default function Register( { navigation } ) {
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <MaterialCommunityIcons style={general.inputIcon} name="email-outline" size={24} color="#f9c746" />
                         <TextInput style={general.input} 
-                        onChange={setEmail} value={email} 
+                        onChangeText={text => setEmail(text)} 
                         placeholder='Email' placeholderTextColor="#FFF" />
                     </View>
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <AntDesign style={general.inputIcon} name="eyeo" size={24} color="#f9c746" />
                         <TextInput style={general.input} 
-                        onChange={setPassword} value={password} 
-                        placeholder='Password' placeholderTextColor="#FFF" />
+                        onChangeText={text => setPassword(text)} 
+                        placeholder='Password' placeholderTextColor="#FFF" secureTextEntry/>
                     </View>
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <AntDesign style={general.inputIcon} name="eyeo" size={24} color="#f9c746" />
                         <TextInput style={general.input} 
-                        onChange={setVerify} value={verify} 
-                        placeholder='Verify Password' placeholderTextColor="#FFF" />
+                        onChangeText={text => setVerify(text)} 
+                        placeholder='Verify Password' placeholderTextColor="#FFF" secureTextEntry/>
                     </View>
 
-                    <Pressable onPress={() => goToScreen(Constants.register)} style={[general.btn, general.btnDark, general.pushBottom]}>
+                    <Pressable onPress={() => performRegister()} style={[general.btn, general.btnDark, general.pushBottom]}>
                         <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>REGISTER</Text>
                     </Pressable>
 
