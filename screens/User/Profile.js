@@ -8,8 +8,8 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native';
-
-
+import Constants from '../../helpers/Constants.js';
+import { userLoggedIn } from '../Authentication/Login.js';
 
 export default function Profile( { navigation } ) {
     return (
@@ -23,15 +23,14 @@ export default function Profile( { navigation } ) {
                             <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar7.png'}}/>
                             <View style={styles.body}>
                                 <View style={styles.bodyContent}>
-                                <Text style={styles.name}>Jonathan Lee</Text>
-                                <Text style={styles.info}>Premium Gold</Text>
-                                <Text style={styles.description}>jonathan23lee@hotmail.ca</Text>
+                                <Text style={[styles.name, general.whiteTxt]}>{userLoggedIn.first_name + " " + userLoggedIn.last_name}</Text>
+                                <Text style={[styles.description, general.whiteTxt]}>{userLoggedIn.email}</Text>
                                 
-                                <TouchableOpacity style={styles.buttonContainer}>
-                                    <Text>Your Cars</Text>  
+                                <TouchableOpacity style={[general.btn, general.btnDark, general.pushBottom, general.pushTop]}>
+                                    <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>Your Cars</Text>  
                                 </TouchableOpacity>              
-                                <TouchableOpacity style={styles.buttonContainer}>
-                                    <Text>Log out</Text> 
+                                <TouchableOpacity style={[general.btn, general.btnBorder]} onPress={() => navigation.replace(Constants.intro)}>
+                                    <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>Log out</Text> 
                                 </TouchableOpacity>
                                 </View>
                             </View>
