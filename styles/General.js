@@ -1,9 +1,12 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const black = '#221d1b';
 const brown = '#7a6a52';
 const yellow = '#f9c746';
 const ligth = '#fffbea';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
     container: {
@@ -180,6 +183,7 @@ export default StyleSheet.create({
         left: 0,
         bottom: 60,
         height: 1,
+        position: 'absolute',
         backgroundColor: brown,
     },
     flexRow: {
@@ -187,5 +191,57 @@ export default StyleSheet.create({
     },
     flexEven: {
         justifyContent: 'space-between'
+    },
+    carBlockList: {
+        height: windowHeight - 118,
+        paddingTop: 20,
+        paddingBottom: 60
+    },
+    carBlock: {
+        flexDirection: 'row',
+        backgroundColor: '#4d4640',
+        borderRadius: 8,
+        borderColor: '#7a6a52',
+        borderWidth: 1,
+        overflow: 'hidden',
+        marginBottom: 20
+    },
+    carBlockMedia: {
+        flex: 1,
+        width: windowWidth * 0.3,
+        minHeight: 100
+    },
+    carBlockImg: {
+        resizeMode: 'cover',
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        left: 0,
+        top: 0
+    },
+    carBlockL: {
+        flex: 1,
+        borderLeftColor: '#7a6a52',
+        borderLeftWidth: 1,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        justifyContent: 'center'
+    },
+    blockName: {
+        fontSize: 18,
+        color: yellow,
+        fontWeight: 'bold',
+        fontFamily: 'RobotoBold'
+    },
+    blockBrand: {
+        fontSize: 10,
+        color: ligth,
+        fontFamily: 'Roboto'
+    },
+    blockPrice: {
+        marginTop: 5,
+        fontSize: 15,
+        color: ligth,
+        fontFamily: 'Roboto'
     }
 });
