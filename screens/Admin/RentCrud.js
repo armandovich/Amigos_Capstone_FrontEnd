@@ -7,6 +7,10 @@ import GradiendBF from '../../component/GradientBG.js';
 import general from '../../styles/General.js';
 import rentS from '../../styles/Rent.js';
 
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import { Marker } from "react-native-maps";
+
+
 
 export default function RentCrud( { navigation } ) {
     const [name, setName] = useState('');
@@ -45,6 +49,15 @@ export default function RentCrud( { navigation } ) {
         { label: 'Performance', value: 2 },
         { label: 'All-terrain', value: 3 },
         { label: 'Winter', value: 4 }
+    ]);
+    const [Location, setLocation] = useState([
+        { latitude: 'LATITUDE' ,
+         longitude: 'LONGITUDE' ,
+         longitudeDelta: 'LONGITUDE_DELTA',
+         latitudeDelta: 'LATITUDE_DELTA'},
+
+         {marker: null},
+
     ]);
     const [cc, setCc] = useState('');
     const [km, setKm] = useState('');
@@ -117,7 +130,31 @@ export default function RentCrud( { navigation } ) {
                     </View>
 
                     <View style={rentS.map}>
+                    <MapView style={{height: '100%', width: '100%'} }
+                    provider={PROVIDER_GOOGLE}
+                    showsUserLocation={true}  
+                    showsMyLocationButton={true}
+                    followsUserLocation={true}
+                    showsCompass={true}
+                    scrollEnabled={true}
+                    zoomEnabled={true}
+                    pitchEnabled={true}
+                    rotateEnabled={true}
+                    
+                    onPress={async (event) => {
+                        alert(("LATITIUDE " + event.nativeEvent.coordinate.latitude) + ("LONGITUDE " + event.nativeEvent.coordinate.longitude));
+                        const latitude = parseFloat(event.nativeEvent.coordinate.latitude).toFixed(4);
+                        const longitude = parseFloat(event.nativeEvent.coordinate.longitude).toFixed(4);
+                        const cor = event.nativeEvent.coordinate;
+                                
+                        <Marker
+                        coordinate={cor}
+                        />     
+                        
 
+                    }} >
+                             
+                    </MapView>
                     </View>
                     
                     <View style={[general.inputGroup, general.pushBottom]}>
