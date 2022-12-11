@@ -1,6 +1,7 @@
+import * as ImagePicker from 'expo-image-picker';
 import { useState, useEffect } from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, Pressable, View, TextInput, ScrollView } from 'react-native';
+import { Text, Pressable, View, TextInput, ScrollView, Image, Button } from 'react-native';
 import { AntDesign, FontAwesome, Ionicons, MaterialCommunityIcons, FontAwesome5, Entypo } from '@expo/vector-icons';
 import DropDownPicker from "react-native-dropdown-picker";
 import GradiendBF from '../../component/GradientBG.js';
@@ -13,6 +14,8 @@ import { Marker } from "react-native-maps";
 
 
 export default function RentCrud( { navigation } ) {
+    const [status, requestPermission] = ImagePicker.useCameraPermissions();
+    const [image, setImage] = useState(null);
     const [name, setName] = useState('');
     const [brandOpen, setBrandOpen] = useState(false);
     const [brand, setBrand] = useState(null);
@@ -62,6 +65,22 @@ export default function RentCrud( { navigation } ) {
     const [cc, setCc] = useState('');
     const [km, setKm] = useState('');
 
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.canceled) {
+          setImage(result.assets[0].uri);
+        }
+    };
+
     useEffect(() => {
         if(fuelOpen) {
             setTransOpen(false);
@@ -87,6 +106,18 @@ export default function RentCrud( { navigation } ) {
                 <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Rent Your Car:</Text>
 
                 <ScrollView style={[general.fullW, general.paddingH]}>
+                    <View style={rentS.pickerContainer}>
+                        {image ? 
+                            <Image style={rentS.pickerImg} source={{ uri: image }}/>
+                        :
+                            <View style={[general.flexRow, general.centerContainer]}>
+                                <FontAwesome name="image" size={24} color="#f9c746" />
+                                <Text style={[general.yellowTxt, general.boldTxt, {marginLeft: 15}]}>Car Image</Text>
+                            </View>
+                        }
+                        <Pressable style={rentS.openPicker} onPress={pickImage} ></Pressable>
+                    </View>
+
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <FontAwesome5 style={general.inputIcon} name="car-alt" size={24} color="#f9c746" />
                         <TextInput style={general.input} 
@@ -119,7 +150,7 @@ export default function RentCrud( { navigation } ) {
                         <FontAwesome style={[general.inputIcon, {top: 12}]} name="money" size={25} color="#f9c746" />
                         <TextInput style={general.input} 
                         onChangeText={setPrice} value={price} 
-                        placeholder='Dayle Price' placeholderTextColor="#FFF" />
+                        placeholder='Daily Price' placeholderTextColor="#FFF" />
                     </View>
 
                     <View style={[general.inputGroup, general.pushBottom]}>

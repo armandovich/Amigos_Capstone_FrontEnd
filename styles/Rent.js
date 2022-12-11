@@ -29,6 +29,29 @@ export default StyleSheet.create({
         borderRadius: 8,
         borderColor: '#7a6a52',
         borderWidth: 1,
+        marginBottom: 15,
+        overflow: 'hidden'
+    },
+    pickerContainer: {
+        width: '100%',
+        height: windowWidth * 0.5,
+        backgroundColor: '#4d4640',
+        borderColor: '#7a6a52',
+        borderStyle: 'dashed',
+        borderWidth: 2,
+        borderRadius: 8,
         marginBottom: 15
+    },
+    openPicker: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        left: 0,
+        top: 0
+    },
+    pickerImg: {
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover'
     }
 });
