@@ -10,6 +10,7 @@ import rentS from '../../styles/Rent.js';
 
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import { Marker } from "react-native-maps";
+import * as location from "expo-location";
 
 
 
@@ -53,15 +54,32 @@ export default function RentCrud( { navigation } ) {
         { label: 'All-terrain', value: 3 },
         { label: 'Winter', value: 4 }
     ]);
-    const [Location, setLocation] = useState([
-        { latitude: 'LATITUDE' ,
-         longitude: 'LONGITUDE' ,
-         longitudeDelta: 'LONGITUDE_DELTA',
-         latitudeDelta: 'LATITUDE_DELTA'},
 
-         {marker: null},
+    //MAPS
+    const[Location,setLocation] = useState(null)
+    const[errorMsg,seterrorMsg] = useState(null)
+    const[mapRegion,setMapRegion] = useState(null)
+
+
+    const [sLocation, setsLocation] = useState([
+        { latitude: 'LATITUDE' },
+        { longitude: 'LONGITUDE' } ,
+        { longitudeDelta: 'LONGITUDE_DELTA' },
+        { latitudeDelta: 'LATITUDE_DELTA' }
 
     ]);
+
+
+    //initial region
+    const collegeRegion = {
+        latitude: 43.77335,
+        longitude: -79.335951,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+        
+      };
+
+
     const [cc, setCc] = useState('');
     const [km, setKm] = useState('');
 
@@ -97,6 +115,25 @@ export default function RentCrud( { navigation } ) {
         setFuelOpen(false);
         setTransOpen(false);
     } }, [tiresOpen]);
+
+    useEffect(() => {
+        (async() => {
+            let { status } = await location.requestForegroundPermissionsAsync();
+            if (status !== "granted"){
+                seterrorMsg("Permissions to access location was denied")
+            }
+
+            let loc = await location.getCurrentPositionAsync({});
+            setMapRegion({
+                longitude: loc.coords.longitude,
+                latitude: loc.coords.latitude,
+                longitudeDelta: 0.0922,
+                latitudeDelta: 0.0421
+            })
+            setLocation(loc);
+        })();
+    },[]);
+
 
     return (
         <SafeAreaView>
@@ -161,8 +198,10 @@ export default function RentCrud( { navigation } ) {
                     </View>
 
                     <View style={rentS.map}>
+                        
                     <MapView style={{height: '100%', width: '100%'} }
                     provider={PROVIDER_GOOGLE}
+                    initialRegion={mapRegion}
                     showsUserLocation={true}  
                     showsMyLocationButton={true}
                     followsUserLocation={true}
@@ -172,19 +211,28 @@ export default function RentCrud( { navigation } ) {
                     pitchEnabled={true}
                     rotateEnabled={true}
                     
+                    
+
                     onPress={async (event) => {
                         alert(("LATITIUDE " + event.nativeEvent.coordinate.latitude) + ("LONGITUDE " + event.nativeEvent.coordinate.longitude));
                         const latitude = parseFloat(event.nativeEvent.coordinate.latitude).toFixed(4);
                         const longitude = parseFloat(event.nativeEvent.coordinate.longitude).toFixed(4);
-                        const cor = event.nativeEvent.coordinate;
-                                
-                        <Marker
-                        coordinate={cor}
-                        />     
+                        // cor = event.nativeEvent.coordinate;
+                        setLocation(latitude,longitude,event.nativeEvent.coordinate.latitudeDelta,event.nativeEvent.longitudeDelta)
+                        setsLocation(latitude,longitude,event.nativeEvent.coordinate.latitudeDelta,event.nativeEvent.longitudeDelta)
+    
+                        // setLocation(collegeRegion);
+
                         
 
                     }} >
-                             
+
+                         <Marker
+                        coordinate={mapRegion}
+                        /> 
+
+
+
                     </MapView>
                     </View>
                     

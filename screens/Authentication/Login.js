@@ -43,9 +43,7 @@ export default function Login( { navigation, route } ) {
     }
 
     useEffect(() => {
-      console.log('=========');
-      console.log(route.params.user);
-      if(route.params.user) {
+      if(route.params &&  route.params.user) {
         userLoggedIn = route.params.user;
         alert("Registration was successful!")
         goToScreen(Constants.footer)

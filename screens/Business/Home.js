@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Text, View, FlatList, Image, Pressable, TextInput } from 'react-native';
@@ -19,6 +19,9 @@ import logo6 from '../../assets/icons/mercedes.png';
 import logo7 from '../../assets/icons/nissan.png';
 import logo8 from '../../assets/icons/toyota.png';
 import car from '../../assets/car.jpg';
+
+import * as Location from 'expo-location';
+import fetchLink from "../../helpers/fetchLink.js";
 
 const filterList = [
     null, logo1, logo2, logo3, logo4,
@@ -113,9 +116,29 @@ export default function Profile( { navigation } ) {
     const [filterOn, setFilterOn] = useState(false);
     const [selecetedBrand, setSelectedBrand] = useState(0);
     const [word, setWord] = useState('');
+    const [uLocation, setULocation] = useState({})
+    const [carList, setCarList] = useState([])
+
+    const getUserLocation = async () => {
+        const userLocation = await Location.getCurrentPositionAsync();
+        setULocation(userLocation.coords)
+      };
+
+      const getCarsDB = () => {
+              fetch(fetchLink + '/api/car/?latitude='+ uLocation.latitude + "&longitude=" + uLocation.longitude, {
+              method: 'GET',
+              }).then(res => res.json()).then(data => {
+                setCarList(data)
+              });
+      }
+
+    useEffect(() => {
+        getUserLocation()
+        getCarsDB()
+    }, [uLocation]);
 
     const openCar = (index) => {
-        navigation.navigate(Constants.carDetail, { car: temCars[index] })
+        navigation.navigate(Constants.carDetail, { car: carList[index] })
     }
 
     const selectBrand = (index) => {
@@ -179,7 +202,7 @@ export default function Profile( { navigation } ) {
                         </View>
                     }
                     numColumns={2}
-                    data={temCars} 
+                    data={carList} 
                     renderItem={({ item, index }) => 
                         <Pressable onPress={() => openCar(index)}
                         style={[homeS.carCard, index % 2 == 1 ? homeS.carCardR : homeS.carCardL]}>

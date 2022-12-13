@@ -12,14 +12,14 @@ import fetchLink from "../../helpers/fetchLink.js";
 import { userLoggedIn } from './Login.js';
 
 export default function Register( { navigation } ) {
-    const [fName, setFName] = useState('Daniel');
-    const [lastName, setLastName] = useState('Miolan');
-    const [email, setEmail] = useState('miolan96@gmail.com');
-    const [password, setPassword] = useState('123456');
-    const [verify, setVerify] = useState('123456');
+    const [fName, setFName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [verify, setVerify] = useState('');
     // Dropdown attributes
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(0); // PUT THIS NULL BEFORE PUSH BOY
+    const [value, setValue] = useState(null);
     const [countryList, setCountryList] = useState([
         { label: 'Canada', value: 0 },
         { label: 'United States', value: 1 },
