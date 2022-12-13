@@ -9,7 +9,6 @@ import Constants from '../../helpers/Constants.js';
 import general from '../../styles/General.js';
 import GradiendBF from '../../component/GradientBG.js';
 import fetchLink from "../../helpers/fetchLink.js";
-import { userLoggedIn } from './Login.js';
 
 export default function Register( { navigation } ) {
     const [fName, setFName] = useState('');
