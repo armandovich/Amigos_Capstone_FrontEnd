@@ -9,7 +9,7 @@ import general from '../../styles/General.js';
 import rentS from '../../styles/Rent.js';
 
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import { Marker } from "react-native-maps";
+import { Marker , Callout } from "react-native-maps";
 import * as location from "expo-location";
 
 
@@ -59,6 +59,7 @@ export default function RentCrud( { navigation } ) {
     const[Location,setLocation] = useState(null)
     const[errorMsg,seterrorMsg] = useState(null)
     const[mapRegion,setMapRegion] = useState(null)
+    const [marker, setMarker] = useState([]);
 
 
     const [sLocation, setsLocation] = useState([
@@ -134,6 +135,10 @@ export default function RentCrud( { navigation } ) {
         })();
     },[]);
 
+    const handleNewMarker = (coordinate) => {
+        setMarker([ coordinate]);
+      };
+
 
     return (
         <SafeAreaView>
@@ -202,6 +207,8 @@ export default function RentCrud( { navigation } ) {
                     <MapView style={{height: '100%', width: '100%'} }
                     provider={PROVIDER_GOOGLE}
                     initialRegion={mapRegion}
+                    // onRegionChangeComplete={mapRegion}
+
                     showsUserLocation={true}  
                     showsMyLocationButton={true}
                     followsUserLocation={true}
@@ -213,25 +220,23 @@ export default function RentCrud( { navigation } ) {
                     
                     
 
-                    onPress={async (event) => {
-                        alert(("LATITIUDE " + event.nativeEvent.coordinate.latitude) + ("LONGITUDE " + event.nativeEvent.coordinate.longitude));
-                        const latitude = parseFloat(event.nativeEvent.coordinate.latitude).toFixed(4);
-                        const longitude = parseFloat(event.nativeEvent.coordinate.longitude).toFixed(4);
-                        // cor = event.nativeEvent.coordinate;
-                        setLocation(latitude,longitude,event.nativeEvent.coordinate.latitudeDelta,event.nativeEvent.longitudeDelta)
-                        setsLocation(latitude,longitude,event.nativeEvent.coordinate.latitudeDelta,event.nativeEvent.longitudeDelta)
-    
-                        // setLocation(collegeRegion);
+                 
+                    onPress={(e) => {
+                        handleNewMarker(e.nativeEvent.coordinate)
+                        setsLocation(e.nativeEvent.coordinate.latitude,e.nativeEvent.coordinate.longitude,e.nativeEvent.coordinate.latitudeDelta,e.nativeEvent.longitudeDelta)
+                        alert("Pickup Location updated")
 
-                        
-
-                    }} >
-
-                         <Marker
-                        coordinate={mapRegion}
-                        /> 
+                    }}
 
 
+                     >
+                        {marker.length > 0 &&
+                        marker.map((m) => {
+                            return (
+                            <Marker coordinate={m} key={1} />
+                            );
+                        })}
+                                
 
                     </MapView>
                     </View>
