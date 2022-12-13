@@ -102,7 +102,7 @@ export default function RentCrud( { navigation } ) {
 
     useEffect(() => {
         (async() => {
-            let { status } = await Location.requestPermissionsAsync();
+            let { status } = await location.requestForegroundPermissionsAsync();
             if (status !== "granted"){
                 seterrorMsg("Permissions to access location was denied")
             }
@@ -173,7 +173,7 @@ export default function RentCrud( { navigation } ) {
                         
                     <MapView style={{height: '100%', width: '100%'} }
                     provider={PROVIDER_GOOGLE}
-                    initialRegion={collegeRegion}
+                    initialRegion={mapRegion}
                     showsUserLocation={true}  
                     showsMyLocationButton={true}
                     followsUserLocation={true}
@@ -191,7 +191,8 @@ export default function RentCrud( { navigation } ) {
                         const longitude = parseFloat(event.nativeEvent.coordinate.longitude).toFixed(4);
                         // cor = event.nativeEvent.coordinate;
                         setLocation(latitude,longitude,event.nativeEvent.coordinate.latitudeDelta,event.nativeEvent.longitudeDelta)
-                                
+                        setsLocation(latitude,longitude,event.nativeEvent.coordinate.latitudeDelta,event.nativeEvent.longitudeDelta)
+    
                         // setLocation(collegeRegion);
 
                         
@@ -199,8 +200,10 @@ export default function RentCrud( { navigation } ) {
                     }} >
 
                          <Marker
-                        coordinate={Location}
+                        coordinate={mapRegion}
                         /> 
+
+
 
                     </MapView>
                     </View>
