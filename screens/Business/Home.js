@@ -138,7 +138,7 @@ export default function Profile( { navigation } ) {
     }, [uLocation]);
 
     const openCar = (index) => {
-        navigation.navigate(Constants.carDetail, { car: temCars[index] })
+        navigation.navigate(Constants.carDetail, { car: carList[index] })
     }
 
     const selectBrand = (index) => {
