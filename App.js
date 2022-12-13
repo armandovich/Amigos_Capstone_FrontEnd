@@ -6,7 +6,7 @@ import MainNav from './navigations/MainNav.js';
 import * as Location from 'expo-location';
 
 const checkPermission = async () => {
-  const hasPermission = await Location.requestPermissionsAsync();
+  const hasPermission = await Location.requestForegroundPermissionsAsync();
   if (hasPermission.status === 'granted') {
     const permission = await askPermission();
     return permission;
@@ -14,7 +14,7 @@ const checkPermission = async () => {
   return true;
 };
 const askPermission = async () => {
-  const permission = await Location.getPermissionsAsync();
+  const permission = await Location.getForegroundPermissionsAsync();
   return permission.status === 'granted';
 };
 checkPermission()
