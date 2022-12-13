@@ -7,53 +7,37 @@ import DropDownPicker from "react-native-dropdown-picker";
 import GradiendBF from '../../component/GradientBG.js';
 import general from '../../styles/General.js';
 import rentS from '../../styles/Rent.js';
+import Constants from '../../helpers/Constants.js';
+import fetchLink from '../../helpers/fetchLink.js';
+import { userLoggedIn } from '../Authentication/Login.js';
 
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import { Marker , Callout } from "react-native-maps";
 import * as location from "expo-location";
 
-
-
-export default function RentCrud( { navigation } ) {
+export default function RentCrud( { navigation, route } ) {
+    const [isEdit, setIsEdit] = useState(false);
     const [status, requestPermission] = ImagePicker.useCameraPermissions();
     const [image, setImage] = useState(null);
-    const [name, setName] = useState('');
+    const [name, setName] = useState('Tesla XT');
     const [brandOpen, setBrandOpen] = useState(false);
-    const [brand, setBrand] = useState(null);
-    const [brandList, setBrandList] = useState([
-        { label: 'Brand A', value: 0 },
-        { label: 'Brand B', value: 1 },
-        { label: 'Brand C', value: 2 }
-    ]);
-    const [price, setPrice] = useState('');
-    const [doors, setDoors] = useState('');
-    const [seats, setSteats] = useState('');
+    const [brand, setBrand] = useState(0); // SET NULL BEFOER UPLOAD
+    const [brandList, setBrandList] = useState(Constants.brandList);
+    const [price, setPrice] = useState('285.34');
+    const [address, setAddress] = useState('Somewhere in Toronto.');
+    const [doors, setDoors] = useState('4');
+    const [seats, setSteats] = useState('5');
     const [fuelOpen, setFuelOpen] = useState(false);
-    const [fuel, setFuel] = useState(null);
-    const [fuelList, setFuelList] = useState([
-        { label: 'Electric', value: 0 },
-        { label: 'Bio-diesel', value: 1 },
-        { label: 'Diesel', value: 2 },
-        { label: 'Gasoline', value: 3 },
-        { label: 'Ethanol', value: 4 }
-    ]);
+    const [fuel, setFuel] = useState(0); // SET NULL BEFOER UPLOAD
+    const [fuelList, setFuelList] = useState(Constants.fuelTypes);
     const [transOpen, setTransOpen] = useState(false);
-    const [trans, setTrans] = useState(null);
-    const [transList, setTransList] = useState([
-        { label: 'Automatic', value: 0 },
-        { label: 'Manual', value: 1 },
-        { label: 'CVT', value: 2 },
-        { label: 'Semi-automatic', value: 3 }
-    ]);
+    const [trans, setTrans] = useState(0); // SET NULL BEFOER UPLOAD
+    const [transList, setTransList] = useState(Constants.transmitionTypes);
     const [tiresOpen, setTiresOpen] = useState(false);
-    const [tires, setTires] = useState(null);
-    const [tiresList, setTiresList] = useState([
-        { label: 'All-season', value: 0 },
-        { label: 'Summer', value: 1 },
-        { label: 'Performance', value: 2 },
-        { label: 'All-terrain', value: 3 },
-        { label: 'Winter', value: 4 }
-    ]);
+    const [tires, setTires] = useState(0); // SET NULL BEFOER UPLOAD
+    const [tiresList, setTiresList] = useState(Constants.tierTypes);
+    const [cc, setCc] = useState('1000');
+    const [km, setKm] = useState('300');
 
     //MAPS
     const[Location,setLocation] = useState(null)
@@ -70,19 +54,13 @@ export default function RentCrud( { navigation } ) {
 
     ]);
 
-
     //initial region
     const collegeRegion = {
         latitude: 43.77335,
         longitude: -79.335951,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
-        
-      };
-
-
-    const [cc, setCc] = useState('');
-    const [km, setKm] = useState('');
+    };
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -93,11 +71,94 @@ export default function RentCrud( { navigation } ) {
           quality: 1,
         });
     
-        console.log(result);
-    
         if (!result.canceled) {
           setImage(result.assets[0].uri);
         }
+    };
+
+    const requestMapPermission = async() => {
+        let { status } = await location.requestForegroundPermissionsAsync();
+        if (status !== "granted"){
+            seterrorMsg("Permissions to access location was denied")
+        }
+
+        let loc = await location.getCurrentPositionAsync({});
+
+        setMapRegion({
+            longitude: loc.coords.longitude,
+            latitude: loc.coords.latitude,
+            longitudeDelta: 0.0922,
+            latitudeDelta: 0.0421
+        })
+
+        setLocation(loc);
+    };
+
+    const createCar = async () => {
+        const carData = {
+            name: name,
+            brand: brand,
+            price: price,
+            address: address,
+            latitude: mapRegion.latitude,
+            longitude: mapRegion.longitude,
+            doors: doors,
+            seats: seats,
+            fuel: fuel,
+            transmition: trans,
+            tires, tires,
+            cc: cc,
+            max_speed: km,
+            owner_id: userLoggedIn._id
+        };
+        let data = new FormData();
+
+        console.log(mapRegion.latitude);
+        console.log(mapRegion.longitude);
+
+        let filename = image.split('/').pop();
+        let match = /\.(\w+)$/.exec(filename);
+        let type = match ? `image/${match[1]}` : `image`;
+        
+        data.append('photo', { uri: image, name: filename, type });
+        data.append('car', JSON.stringify(carData))
+
+        fetch(fetchLink + '/api/car/', { 
+            method: 'POST',
+            headers: { 'Content-Type': 'multipart/form-data' },
+            body: data
+        }).then(res => res.json()).then(data => {
+            console.log(data)
+            if(data.message) {
+                alert(data.message)
+            } else {
+                alert("Car has been created.")
+            }
+        }).catch(err => {
+            alert("Sorry there was an error with your request.")
+        });
+    };
+
+    const updateCar = async () => {
+
+    };
+
+    const deleteCar = async () => {
+
+    };
+
+    const clearInputs = () => {
+        setName('');
+        setBrand(null);
+        setPrice('');
+        setAddress('');
+        setDoors('');
+        setSteats('');
+        setFuel(null);
+        setTrans(null);
+        setTires(null);
+        setCc('');
+        setKm('');
     };
 
     useEffect(() => {
@@ -118,27 +179,13 @@ export default function RentCrud( { navigation } ) {
     } }, [tiresOpen]);
 
     useEffect(() => {
-        (async() => {
-            let { status } = await location.requestForegroundPermissionsAsync();
-            if (status !== "granted"){
-                seterrorMsg("Permissions to access location was denied")
-            }
-
-            let loc = await location.getCurrentPositionAsync({});
-            setMapRegion({
-                longitude: loc.coords.longitude,
-                latitude: loc.coords.latitude,
-                longitudeDelta: 0.0922,
-                latitudeDelta: 0.0421
-            })
-            setLocation(loc);
-        })();
+        requestMapPermission();
+        setIsEdit(route.params.isEdit);
     },[]);
 
     const handleNewMarker = (coordinate) => {
         setMarker([ coordinate]);
-      };
-
+    };
 
     return (
         <SafeAreaView>
@@ -198,55 +245,43 @@ export default function RentCrud( { navigation } ) {
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <FontAwesome style={[general.inputIcon, {top: 12}]} name="address-book-o" size={24} color="#f9c746" />
                         <TextInput style={general.input} 
-                        onChangeText={setName} value={name} 
+                        onChangeText={setAddress} value={address} 
                         placeholder='Address' placeholderTextColor="#FFF" />
                     </View>
 
                     <View style={rentS.map}>
+                        <MapView style={{height: '100%', width: '100%'} }
+                        provider={PROVIDER_GOOGLE}
+                        initialRegion={mapRegion}
+                        // onRegionChangeComplete={mapRegion}
+                        showsUserLocation={true}  
+                        showsMyLocationButton={true}
+                        followsUserLocation={true}
+                        showsCompass={true}
+                        scrollEnabled={true}
+                        zoomEnabled={true}
+                        pitchEnabled={true}
+                        rotateEnabled={true}
+                        onPress={(e) => {
+                            handleNewMarker(e.nativeEvent.coordinate)
+                            setsLocation(e.nativeEvent.coordinate.latitude,e.nativeEvent.coordinate.longitude,e.nativeEvent.coordinate.latitudeDelta,e.nativeEvent.longitudeDelta)
+                            alert("Pickup Location updated")
+
+                        }}>
                         
-                    <MapView style={{height: '100%', width: '100%'} }
-                    provider={PROVIDER_GOOGLE}
-                    initialRegion={mapRegion}
-                    // onRegionChangeComplete={mapRegion}
-
-                    showsUserLocation={true}  
-                    showsMyLocationButton={true}
-                    followsUserLocation={true}
-                    showsCompass={true}
-                    scrollEnabled={true}
-                    zoomEnabled={true}
-                    pitchEnabled={true}
-                    rotateEnabled={true}
-                    
-                    
-
-                 
-                    onPress={(e) => {
-                        handleNewMarker(e.nativeEvent.coordinate)
-                        setsLocation(e.nativeEvent.coordinate.latitude,e.nativeEvent.coordinate.longitude,e.nativeEvent.coordinate.latitudeDelta,e.nativeEvent.longitudeDelta)
-                        alert("Pickup Location updated")
-
-                    }}
-
-
-                     >
-                        {marker.length > 0 &&
-                        marker.map((m) => {
-                            return (
+                        {marker.length > 0 && marker.map((m) => { return (
                             <Marker coordinate={m} key={1} />
-                            );
-                        })}
-                                
+                        )})}
 
-                    </MapView>
+                        </MapView>
                     </View>
                     
-                    <View style={[general.inputGroup, general.pushBottom]}>
-                        <MaterialCommunityIcons style={general.inputIcon} name="car-door" size={24} color="#f9c746" />
-                        <TextInput style={general.input} 
-                        onChangeText={setDoors} value={doors} 
-                        placeholder='Doors' placeholderTextColor="#FFF" />
-                    </View>
+                        <View style={[general.inputGroup, general.pushBottom]}>
+                            <MaterialCommunityIcons style={general.inputIcon} name="car-door" size={24} color="#f9c746" />
+                            <TextInput style={general.input} 
+                            onChangeText={setDoors} value={doors} 
+                            placeholder='Doors' placeholderTextColor="#FFF" />
+                        </View>
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <MaterialCommunityIcons style={general.inputIcon} name="car-seat" size={24} color="#f9c746" />
@@ -296,7 +331,7 @@ export default function RentCrud( { navigation } ) {
                         setValue={setTrans}
                         setItems={setTransList}/>
                     </View>
-
+                            
                     <View style={[general.dropdownGroup, { zIndex: tiresOpen ? 10 : 1 } ]}>
                         <MaterialCommunityIcons style={[general.inputIcon, {top: 13}]}  name="tire" size={24} color="#f9c746" />
                         <DropDownPicker
@@ -317,6 +352,8 @@ export default function RentCrud( { navigation } ) {
                         setValue={setTires}
                         setItems={setTiresList}/>
                     </View>
+                    
+                    <Text style={[general.yellowTxt, general.boldTxt, general.pushBottom, general.pushTop]}>Optional Fields:</Text>
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <MaterialCommunityIcons style={general.inputIcon} name="engine" size={27} color="#f9c746" />
@@ -332,7 +369,7 @@ export default function RentCrud( { navigation } ) {
                         placeholder='Max speed (km)' placeholderTextColor="#FFF" />
                     </View>
 
-                    <Pressable onPress={() => goToScreen(Constants.footer)} style={[general.btn, general.btnDark, general.pushBottom]}>
+                    <Pressable onPress={createCar} style={[general.btn, general.btnDark, general.pushBottom]}>
                         <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>CREATE</Text>
                     </Pressable>
 

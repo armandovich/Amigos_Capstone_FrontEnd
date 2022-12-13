@@ -25,10 +25,10 @@ export default function Login( { navigation, route } ) {
           email: user,
           password:password,
         }
-        
+
         //THIS IS FOR ANDROID EMULATOR! MIGHT BE DIFFERENT FOR OTHER DEVICES.
         fetch(fetchLink + '/api/user/?email='+ userData.email + "&password=" + userData.password, {
-            method: 'GET',
+            method: 'GET'
         }).then(res => res.json()).then(data => {
           if(data.message == "User not found."){
             alert("Please check your email and password.")
@@ -38,7 +38,9 @@ export default function Login( { navigation, route } ) {
             alert("Login successful!")
             goToScreen(Constants.footer)
           }
-        });
+        }).catch(function(error) { 
+          console.log(error); 
+        })
       }
     }
 
