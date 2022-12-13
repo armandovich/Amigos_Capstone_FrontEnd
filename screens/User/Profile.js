@@ -6,6 +6,8 @@ import React, { Component } from 'react';
 import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Constants from '../../helpers/Constants.js';
 import { userLoggedIn } from '../Authentication/Login.js';
+import fetchLink from '../../helpers/fetchLink.js';
+
 
 export default function Profile( { navigation } ) {
     return (
@@ -13,24 +15,26 @@ export default function Profile( { navigation } ) {
             <GradiendBF/>
             
             <View >
-                <ScrollView >
-                            <View style={general.fullW}>
-                            <View style={styles.header}></View>
-                            <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar7.png'}}/>
-                            <View style={styles.body}>
-                                <View style={styles.bodyContent}>
-                                <Text style={[styles.name, general.whiteTxt]}>{userLoggedIn.first_name + " " + userLoggedIn.last_name}</Text>
-                                <Text style={[styles.description, general.whiteTxt]}>{userLoggedIn.email}</Text>
+              <ScrollView >
+                <View style={general.fullW}>
+                    <View style={styles.header}></View>
+                      <Image style={styles.avatar} source={{uri:  fetchLink + '/uploads/avatars/' + userLoggedIn.avatar }}/>
+                      
+                      <View style={styles.body}>
+                        <View style={styles.bodyContent}>
+                        <Text style={[styles.name, general.whiteTxt]}>{userLoggedIn.first_name + " " + userLoggedIn.last_name}</Text>
+                        <Text style={[styles.description, general.whiteTxt]}>{userLoggedIn.email}</Text>
                                 
-                                <TouchableOpacity style={[general.btn, general.btnDark, general.pushBottom, general.pushTop]}>
-                                    <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>Your Cars</Text>  
-                                </TouchableOpacity>              
-                                <TouchableOpacity style={[general.btn, general.btnBorder]} onPress={() => navigation.replace(Constants.intro)}>
-                                    <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>Log out</Text> 
-                                </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
+                        <TouchableOpacity style={[general.btn, general.btnDark, general.pushBottom, general.pushTop]}>
+                          <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>Your Cars</Text>  
+                        </TouchableOpacity>     
+
+                        <TouchableOpacity style={[general.btn, general.btnBorder]} onPress={() => navigation.replace(Constants.intro)}>
+                          <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>Log out</Text> 
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
                 </ScrollView>
             </View>
         </SafeAreaView>
