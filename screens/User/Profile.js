@@ -3,11 +3,7 @@ import { Text, ScrollView, View } from 'react-native';
 import GradiendBF from '../../component/GradientBG.js';
 import general from '../../styles/General.js';
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Image,
-  TouchableOpacity
-} from 'react-native';
+import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Constants from '../../helpers/Constants.js';
 import { userLoggedIn } from '../Authentication/Login.js';
 

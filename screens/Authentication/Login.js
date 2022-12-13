@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Text, Pressable, View, TextInput, ScrollView } from 'react-native';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,7 +9,7 @@ import fetchLink from "../../helpers/fetchLink.js";
 
 let userLoggedIn;
 
-export default function Login( { navigation } ) {
+export default function Login( { navigation, route } ) {
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
 
@@ -18,29 +18,39 @@ export default function Login( { navigation } ) {
     }
 
     const performLogin = () => {
-            if(user == '' || password == ''){
-              alert("Please fill in all the inputs!")
-            }else{
-              const userData = {
-                email: user,
-                password:password,
-              }
-              
-               //THIS IS FOR ANDROID EMULATOR! MIGHT BE DIFFERENT FOR OTHER DEVICES.
-              fetch(fetchLink + '/api/user/?email='+ userData.email + "&password=" + userData.password, {
-                  method: 'GET',
-              }).then(res => res.json()).then(data => {
-                if(data.message == "User not found."){
-                  alert("Please check your email and password.")
-                }else{
-                  console.log(data)
-                  userLoggedIn = data
-                  alert("Login successful!")
-                  goToScreen(Constants.footer)
-                }
-              });
-            }
+      if(user == '' || password == ''){
+        alert("Please fill in all the inputs!")
+      }else{
+        const userData = {
+          email: user,
+          password:password,
+        }
+        
+        //THIS IS FOR ANDROID EMULATOR! MIGHT BE DIFFERENT FOR OTHER DEVICES.
+        fetch(fetchLink + '/api/user/?email='+ userData.email + "&password=" + userData.password, {
+            method: 'GET',
+        }).then(res => res.json()).then(data => {
+          if(data.message == "User not found."){
+            alert("Please check your email and password.")
+          }else{
+            console.log(data)
+            userLoggedIn = data
+            alert("Login successful!")
+            goToScreen(Constants.footer)
+          }
+        });
+      }
     }
+
+    useEffect(() => {
+      console.log('=========');
+      console.log(route.params.user);
+      if(route.params.user) {
+        userLoggedIn = route.params.user;
+        alert("Registration was successful!")
+        goToScreen(Constants.footer)
+      }
+    }, []);
 
     return (
         <SafeAreaView>

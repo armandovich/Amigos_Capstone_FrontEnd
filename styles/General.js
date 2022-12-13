@@ -243,5 +243,40 @@ export default StyleSheet.create({
         fontSize: 15,
         color: ligth,
         fontFamily: 'Roboto'
+    },
+    avatarCirlce: {
+        width: 100,
+        height: 100,
+        backgroundColor: 'transparent',
+        borderRadius: 50,
+        borderColor: '#7a6a52',
+        borderWidth: 1,
+        borderStyle: 'dashed',
+        overflow: 'hidden',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    avatarImg: {
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: '100%',
+        height: '100%'
+    },
+    avatarTxt: {
+        color: yellow,
+        fontWeight: 'bold',
+        fontFamily: 'RobotoBold',
+        marginBottom: 10
+    },
+    mediaBtn: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#4d4640',
+        borderColor: '#7a6a52',
+        borderWidth: 1,
+        borderRadius: 8,
+        width: '46%',
+        paddingVertical: 10
     }
 });
