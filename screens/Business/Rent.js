@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, View, Pressable, FlatList, Image } from 'react-native';
 import GradiendBF from '../../component/GradientBG.js';
 import Constants from '../../helpers/Constants.js';
+import fetchLink from '../../helpers/fetchLink.js';
 import general from '../../styles/General.js';
 import rentS from '../../styles/Rent.js';
 import car from '../../assets/car.jpg';
+import { userLoggedIn } from '../Authentication/Login.js';
 
 const tempList = [
     { name: 'Car Name A', brand: 'Brand Here', price: 200 },
@@ -19,10 +21,29 @@ const tempList = [
 ];
 
 export default function Rent( { navigation } ) {
-    const [carList, setCarList] = useState(tempList);
+    const [carList, setCarList] = useState(null);
     const carCrud = (index, isEditMode) => {
         navigation.navigate(Constants.rentcrud, { isEdit: isEditMode, car: carList[index] })
     }
+
+    const loadUserCars = async () => {
+        fetch(fetchLink + '/api/car/' + userLoggedIn._id, {
+            method: 'GET'
+        }).then(res => res.json()).then(data => {
+            console.log(data);
+            setCarList(data);
+        }).catch(function(error) { 
+          console.log(error); 
+        })
+    };
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            loadUserCars();
+        });
+      
+        return unsubscribe;
+      }, [navigation]);
 
     return (
         <SafeAreaView>
@@ -44,7 +65,7 @@ export default function Rent( { navigation } ) {
                 renderItem={({ item, index }) => 
                     <View style={[general.carBlock]}>
                         <View style={general.carBlockMedia}>
-                            <Image style={general.carBlockImg} source={car}/>
+                            <Image style={general.carBlockImg} source={{uri : fetchLink + '/uploads/cars/' +  item.photo}}/>
                         </View>
                         <View style={general.carBlockL}>
                             <Text style={[general.blockName]}>{item.name}</Text>

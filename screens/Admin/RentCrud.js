@@ -19,25 +19,25 @@ export default function RentCrud( { navigation, route } ) {
     const [isEdit, setIsEdit] = useState(false);
     const [status, requestPermission] = ImagePicker.useCameraPermissions();
     const [image, setImage] = useState(null);
-    const [name, setName] = useState('Tesla XT');
+    const [name, setName] = useState('');
     const [brandOpen, setBrandOpen] = useState(false);
-    const [brand, setBrand] = useState(0); // SET NULL BEFOER UPLOAD
+    const [brand, setBrand] = useState(null);
     const [brandList, setBrandList] = useState(Constants.brandList);
-    const [price, setPrice] = useState('285.34');
-    const [address, setAddress] = useState('Somewhere in Toronto.');
-    const [doors, setDoors] = useState('4');
-    const [seats, setSteats] = useState('5');
+    const [price, setPrice] = useState(0);
+    const [address, setAddress] = useState('');
+    const [doors, setDoors] = useState(0);
+    const [seats, setSteats] = useState(0);
     const [fuelOpen, setFuelOpen] = useState(false);
-    const [fuel, setFuel] = useState(0); // SET NULL BEFOER UPLOAD
+    const [fuel, setFuel] = useState(null);
     const [fuelList, setFuelList] = useState(Constants.fuelTypes);
     const [transOpen, setTransOpen] = useState(false);
-    const [trans, setTrans] = useState(0); // SET NULL BEFOER UPLOAD
+    const [trans, setTrans] = useState(null);
     const [transList, setTransList] = useState(Constants.transmitionTypes);
     const [tiresOpen, setTiresOpen] = useState(false);
-    const [tires, setTires] = useState(0); // SET NULL BEFOER UPLOAD
+    const [tires, setTires] = useState(null);
     const [tiresList, setTiresList] = useState(Constants.tierTypes);
-    const [cc, setCc] = useState('1000');
-    const [km, setKm] = useState('300');
+    const [cc, setCc] = useState(0);
+    const [km, setKm] = useState(0);
 
     //MAPS
     const[Location,setLocation] = useState(null)
