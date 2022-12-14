@@ -39,6 +39,7 @@ export default function Profile( { navigation } ) {
 
     const getUserLocation = async () => {
         const userLocation = await Location.getCurrentPositionAsync();
+        console.log(userLocation);
         setULocation(userLocation.coords)
     };
 
@@ -51,13 +52,15 @@ export default function Profile( { navigation } ) {
     }
 
     useEffect(() => {
+        getUserLocation()
+    }, [uLocation]);
+
+    useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            getUserLocation()
-        getCarsDB()
-    });
-      
+            getCarsDB()
+        });
         return unsubscribe;
-      }, [navigation]);
+    }, [navigation]);
 
     const openCar = (index) => {
         navigation.navigate(Constants.carDetail, { car: carList[index] })
