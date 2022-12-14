@@ -40,21 +40,24 @@ export default function Profile( { navigation } ) {
     const getUserLocation = async () => {
         const userLocation = await Location.getCurrentPositionAsync();
         setULocation(userLocation.coords)
-      };
+    };
 
-      const getCarsDB = () => {
-              fetch(fetchLink + '/api/car/?latitude='+ uLocation.latitude + "&longitude=" + uLocation.longitude, {
-              method: 'GET',
-              }).then(res => res.json()).then(data => {
-                setCarList(data.filter(car => car.owner_id != userLoggedIn._id))
-              });
-      }
+    const getCarsDB = () => {
+        fetch(fetchLink + '/api/car/?latitude='+ uLocation.latitude + "&longitude=" + uLocation.longitude, {
+            method: 'GET',
+        }).then(res => res.json()).then(data => {
+            setCarList(data.filter(car => car.owner_id != userLoggedIn._id))
+        });
+    }
 
     useEffect(() => {
-        getUserLocation()
+        const unsubscribe = navigation.addListener('focus', () => {
+            getUserLocation()
         getCarsDB()
-        
-    }, [uLocation]);
+    });
+      
+        return unsubscribe;
+      }, [navigation]);
 
     const openCar = (index) => {
         navigation.navigate(Constants.carDetail, { car: carList[index] })
@@ -126,7 +129,7 @@ export default function Profile( { navigation } ) {
                         <Pressable onPress={() => openCar(index)}
                         style={[homeS.carCard, index % 2 == 1 ? homeS.carCardR : homeS.carCardL]}>
                             <View style={homeS.cardMedia}>
-                                <Image style={homeS.carImg} source={car}/>
+                                <Image style={homeS.carImg} source={{uri : fetchLink + '/uploads/cars/' +  item.photo}}/>
 
                                 <View style={homeS.cardLabel}>
                                     <TopGradien/>

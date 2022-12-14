@@ -63,7 +63,8 @@ export default function Rent( { navigation } ) {
                 <FlatList style={[general.fullW, general.paddingH]}
                 data={carList} 
                 renderItem={({ item, index }) => 
-                    <View style={[general.carBlock]}>
+                    <Pressable onPress={() => carCrud(index, true)}
+                    style={[general.carBlock]}>
                         <View style={general.carBlockMedia}>
                             <Image style={general.carBlockImg} source={{uri : fetchLink + '/uploads/cars/' +  item.photo}}/>
                         </View>
@@ -72,7 +73,7 @@ export default function Rent( { navigation } ) {
                             <Text style={[general.blockBrand]}>{item.brand}</Text>
                             <Text style={[general.blockPrice]}>${item.price}</Text>
                         </View>
-                    </View>
+                    </Pressable>
                 }/>
             </View>
 

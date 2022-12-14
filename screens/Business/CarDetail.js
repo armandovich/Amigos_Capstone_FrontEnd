@@ -8,6 +8,7 @@ import Validations from "../../helpers/Validations..js";
 import general from '../../styles/General.js';
 import carS from '../../styles/CarDetail.js';
 import GradiendBF from '../../component/GradientBG.js';
+import fetchLink from "../../helpers/fetchLink.js";
 import carImage from '../../assets/car.jpg';
 import Stars from '../../component/Stars.js';
 import CarSpects from "../../component/CarSpects.js";
@@ -95,7 +96,7 @@ export default function CarDetail( { navigation, route } ) {
             <GradiendBF/>
 
             <ScrollView>
-                <Image style={carS.carImg} source={carImage}/>
+                <Image style={carS.carImg} source={{uri : fetchLink + '/uploads/cars/' +  car.photo}}/>
 
                 <View style={[general.fullW, general.paddingH]}>
 

@@ -11,37 +11,37 @@ export default function CarSpects(props) {
         <View style={carS.carSpecs}>
             <View style={carS.carDetail}>
                 <MaterialCommunityIcons name="car-door" size={24} color="#f9c746" />
-                <Text style={[general.whiteTxt, carS.carSpectTxt]}>2 Doors</Text>
+                <Text style={[general.whiteTxt, carS.carSpectTxt]}>{car.doors} Doors</Text>
             </View>
 
             <View style={carS.carDetail}>
                 <MaterialCommunityIcons name="car-seat" size={24} color="#f9c746" />
-                <Text style={[general.whiteTxt, carS.carSpectTxt]}>2 Seats</Text>
+                <Text style={[general.whiteTxt, carS.carSpectTxt]}>{car.seats} Seats</Text>
             </View>
 
             <View style={carS.carDetail}>
                 <MaterialCommunityIcons name="gas-station" size={24} color="#f9c746" />
-                <Text style={[general.whiteTxt, carS.carSpectTxt]}>Diesel</Text>
+                <Text style={[general.whiteTxt, carS.carSpectTxt]}>{car.fuel}</Text>
             </View>
 
             <View style={carS.carDetail}>
                 <Entypo name="flow-cascade" size={24} color="#f9c746" />
-                <Text style={[general.whiteTxt, carS.carSpectTxt]}>Automatic</Text>
+                <Text style={[general.whiteTxt, carS.carSpectTxt]}>{car.transmition}</Text>
             </View>
 
             <View style={carS.carDetail}>
                 <MaterialCommunityIcons name="tire" size={24} color="#f9c746" />
-                <Text style={[general.whiteTxt, carS.carSpectTxt]}>Snow Tires</Text>
+                <Text style={[general.whiteTxt, carS.carSpectTxt]}>{car.tires} Tires</Text>
             </View>
             
             <View style={carS.carDetail}>
                 <MaterialCommunityIcons name="engine" size={24} color="#f9c746" />
-                <Text style={[general.whiteTxt, carS.carSpectTxt]}>2300cc</Text>
+                <Text style={[general.whiteTxt, carS.carSpectTxt]}>{car.cc}cc</Text>
             </View>
 
             <View style={carS.carDetail}>
                 <Ionicons name="speedometer-outline" size={24} color="#f9c746" />
-                <Text style={[general.whiteTxt, carS.carSpectTxt]}>300km</Text>
+                <Text style={[general.whiteTxt, carS.carSpectTxt]}>{car.max_speed}km</Text>
             </View>
 
             <View style={carS.carDetail}>

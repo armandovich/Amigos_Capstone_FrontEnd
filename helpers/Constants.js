@@ -14,9 +14,15 @@ export default {
     trip: 'Trip',
     checkout: 'Checkout',
     brandList: [
-        { label: 'Brand A', value: 0 },
-        { label: 'Brand B', value: 1 },
-        { label: 'Brand C', value: 2 }
+        { label: 'Audi', value: 'Audi' },
+        { label: 'BMW', value: 'BMW' },
+        { label: 'Fiat', value: 'Fiat' },
+        { label: 'Honda', value: 'Honda' },
+        { label: 'Lamborhini', value: 'Lamborhini' },
+        { label: 'Mercedes', value: 'Mercedes' },
+        { label: 'Nissan', value: 'Nissan' },
+        { label: 'Toyota', value: 'Toyota' },
+        { label: 'Tesla', value: 'Tesla' }
     ],
     fuelTypes: [
         { label: 'Electric', value: 'Electric' },
