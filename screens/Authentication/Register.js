@@ -2,13 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import * as ImagePicker from 'expo-image-picker';
 import { Camera, CameraType } from 'expo-camera';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, ScrollView, View, TextInput, Pressable, Image } from 'react-native';
+import { Text, ScrollView, View, TextInput, Pressable, Image, Modal , Button } from 'react-native';
 import DropDownPicker from "react-native-dropdown-picker";
 import { AntDesign, FontAwesome, Fontisto, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import Constants from '../../helpers/Constants.js';
 import general from '../../styles/General.js';
 import GradiendBF from '../../component/GradientBG.js';
 import fetchLink from "../../helpers/fetchLink.js";
+
 
 export default function Register( { navigation } ) {
     const [fName, setFName] = useState('');
@@ -27,23 +28,26 @@ export default function Register( { navigation } ) {
     const [image, setImage] = useState(null);
     const [file, setFile] = useState(null);
     const [permission, setPermission] = useState(null);
+    
+
     const ref = useRef(null)
 
-    const takePhoto = () => {
-        if(permission) {
-            performPicture();
-        } else {
-            askPermission();
-        }
-    }
+    // const takePhoto = () => {
+    //     if(permission) {
+    //         takePicture();
+    //     } else {
+    //         askPermission();
+    //     }
+    // }
 
-    const performPicture = async () => {
-        const photo = await ref.current.takePictureAsync()
-    }
+   
+    
+    
 
     const askPermission = async () => {
         const { status } = await Camera.requestCameraPermissionsAsync();
         setPermission(status === 'granted');
+
     }
 
     const pickImage = async () => {
@@ -60,6 +64,22 @@ export default function Register( { navigation } ) {
             setImage(result.assets[0].uri);
         }
     };
+
+    const takePicture = async () => {
+        let result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 0.5,
+          });
+  
+          if (!result.canceled) {
+              setFile(result.assets[0].uri)
+              setImage(result.assets[0].uri);
+          }
+      };
+
+
 
     const goToScreen = (value) => {
         navigation.navigate({ name: value });
@@ -132,7 +152,8 @@ export default function Register( { navigation } ) {
             <GradiendBF/>
             <View style={[general.centerContainer]}>
                 <ScrollView style={[general.fullW, general.paddingH]}>
-                    <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Sing Up</Text>
+              
+                    <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Sign Up</Text>
 
                     <View style={[general.flexRow, general.fullW, general.pushBottom]}>
                         <View style={general.avatarCirlce}>
@@ -148,7 +169,9 @@ export default function Register( { navigation } ) {
                             
                             <View style={[general.flexRow, general.flexEven, general.fullW]}>
                                 <Pressable style={[general.mediaBtn]}
-                                onPress={takePhoto}>
+                                onPress={takePicture}
+
+                                >
                                     <Feather name="camera" size={24} color="#f9c746" />
                                     <Text style={general.whiteTxt}>Camera</Text>
                                 </Pressable>
@@ -161,6 +184,10 @@ export default function Register( { navigation } ) {
                             </View>
                         </View>
                     </View>
+
+                    
+
+                    
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <FontAwesome style={general.inputIcon} name="user-o" size={24} color="#f9c746" />
