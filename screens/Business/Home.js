@@ -39,7 +39,6 @@ export default function Profile( { navigation } ) {
 
     const getUserLocation = async () => {
         const userLocation = await Location.getCurrentPositionAsync();
-        console.log(userLocation);
         setULocation(userLocation.coords)
     };
 
@@ -47,13 +46,20 @@ export default function Profile( { navigation } ) {
         fetch(fetchLink + '/api/car/?latitude='+ uLocation.latitude + "&longitude=" + uLocation.longitude, {
             method: 'GET',
         }).then(res => res.json()).then(data => {
+            //setCarList(data)
             setCarList(data.filter(car => car.owner_id != userLoggedIn._id))
         });
     }
 
     useEffect(() => {
         getUserLocation()
+        getCarsDB()
     }, [uLocation]);
+
+    useEffect(() => {
+        getUserLocation()
+        getCarsDB()
+    }, []);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
