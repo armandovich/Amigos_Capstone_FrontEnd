@@ -22,95 +22,13 @@ import car from '../../assets/car.jpg';
 
 import * as Location from 'expo-location';
 import fetchLink from "../../helpers/fetchLink.js";
+import { userLoggedIn } from "../Authentication/Login.js";
 
 const filterList = [
     null, logo1, logo2, logo3, logo4,
     logo5, logo6, logo7, logo8
 ];
 
-const temCars = [
-    { 
-        name: 'Toyota AX 23',
-        brand: 'Toyota',
-        price: 15.19,
-        host: 'Full Name',
-        score: 0,
-        start_date: new Date('2022-11-01'),
-        end_date: new Date('2023-01-01')
-    },
-    { 
-        name: 'Toyota AX 23',
-        brand: 'Toyota',
-        price: 15.19,
-        host: 'Full Name',
-        score: 1,
-        start_date: new Date('2022-11-01'),
-        end_date: new Date('2023-01-01')
-    },
-    { 
-        name: 'Toyota AX 23',
-        brand: 'Toyota',
-        price: 15.19,
-        host: 'Full Name',
-        score: 1.5,
-        start_date: new Date('2022-11-01'),
-        end_date: new Date('2023-01-01')
-    },
-    { 
-        name: 'Toyota AX 23',
-        brand: 'Toyota',
-        price: 15.19,
-        host: 'Full Name',
-        score: 2,
-        start_date: new Date('2022-11-01'),
-        end_date: new Date('2023-01-01')
-    },
-    { 
-        name: 'Toyota AX 23',
-        brand: 'Toyota',
-        price: 15.19,
-        host: 'Full Name',
-        score: 2.5,
-        start_date: new Date('2022-11-01'),
-        end_date: new Date('2023-01-01')
-    },
-    { 
-        name: 'Toyota AX 23',
-        brand: 'Toyota',
-        price: 15.19,
-        host: 'Full Name',
-        score: 3,
-        start_date: new Date('2022-11-01'),
-        end_date: new Date('2023-01-01')
-    },
-    { 
-        name: 'Toyota AX 23',
-        brand: 'Toyota',
-        price: 4,
-        host: 'Full Name',
-        score: 0,
-        start_date: new Date('2022-11-01'),
-        end_date: new Date('2023-01-01')
-    },
-    { 
-        name: 'Toyota AX 23',
-        brand: 'Toyota',
-        price: 15.19,
-        host: 'Full Name',
-        score: 4.5,
-        start_date: new Date('2022-11-01'),
-        end_date: new Date('2023-01-01')
-    },
-    { 
-        name: 'Toyota AX 23',
-        brand: 'Toyota',
-        price: 15.19,
-        host: 'Full Name',
-        score: 5,
-        start_date: new Date('2022-11-01'),
-        end_date: new Date('2023-01-01')
-    }
-];
 
 export default function Profile( { navigation } ) {
     const [filterOn, setFilterOn] = useState(false);
@@ -128,13 +46,14 @@ export default function Profile( { navigation } ) {
               fetch(fetchLink + '/api/car/?latitude='+ uLocation.latitude + "&longitude=" + uLocation.longitude, {
               method: 'GET',
               }).then(res => res.json()).then(data => {
-                setCarList(data)
+                setCarList(data.filter(car => car.owner_id != userLoggedIn._id))
               });
       }
 
     useEffect(() => {
         getUserLocation()
         getCarsDB()
+        
     }, [uLocation]);
 
     const openCar = (index) => {
