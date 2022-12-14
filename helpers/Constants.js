@@ -11,5 +11,6 @@ export default {
     carDetail: 'CarDetail',
     rent: 'Cars',
     rentcrud: 'RentCrud',
-    trip: 'Trip'
+    trip: 'Trip',
+    checkout: 'Checkout'
 }

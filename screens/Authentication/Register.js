@@ -108,6 +108,8 @@ export default function Register( { navigation } ) {
                 body: data
             }).then(res => res.json()).then(data => {
                 console.log(data)
+
+                console.log(data)
                 if(data.message) {
                     alert(data.message)
                 } else {
@@ -133,7 +135,7 @@ export default function Register( { navigation } ) {
             <GradiendBF/>
             <View style={[general.centerContainer]}>
                 <ScrollView style={[general.fullW, general.paddingH]}>
-                    <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Sing Up</Text>
+                    <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Sign Up</Text>
 
                     <View style={[general.flexRow, general.fullW, general.pushBottom]}>
                         <View style={general.avatarCirlce}>
