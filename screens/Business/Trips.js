@@ -53,7 +53,7 @@ export default function Trip( { navigation } ) {
                             <Text style={[general.blockName]}>{item.car_name}</Text>
                             <Text style={[general.blockBrand]}>{item.car_brand}</Text>
                             <Text style={[general.blockPrice]}>Total Cost: ${item.cost}</Text>
-                            <Text style={[general.blockPrice]}>Address: ${item.car_address}</Text>
+                            <Text style={[general.blockPrice]}>Address: {item.car_address}</Text>
                             <Text style={[general.blockPrice]}>From: {formatDate(item.start_date)}</Text>
                             <Text style={[general.blockPrice]}>To:      {formatDate(item.end_date)}</Text>
                             
