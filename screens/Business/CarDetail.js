@@ -12,6 +12,7 @@ import fetchLink from "../../helpers/fetchLink.js";
 import carImage from '../../assets/car.jpg';
 import Stars from '../../component/Stars.js';
 import CarSpects from "../../component/CarSpects.js";
+import { userLoggedIn } from "../Authentication/Login.js";
 
 export default function CarDetail( { navigation, route } ) {
     const [car, setCar] = useState(route.params.car);
@@ -162,7 +163,7 @@ export default function CarDetail( { navigation, route } ) {
                         </View>
                     </View>
 
-                    <Pressable onPress={() => navigation.navigate(Constants.checkout, {amount: cost})} style={[general.btn, general.btnDark, general.pushBottom]}>
+                    <Pressable onPress={() => navigation.navigate(Constants.checkout, {amount: cost, fromDate:fromDate, toDate:toDate, car:car, renter_id:userLoggedIn._id})} style={[general.btn, general.btnDark, general.pushBottom]}>
                         <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>CHECKOUT</Text>
                     </Pressable>
                 </View>
