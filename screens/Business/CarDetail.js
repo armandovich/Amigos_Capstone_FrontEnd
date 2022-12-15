@@ -34,7 +34,7 @@ export default function CarDetail( { navigation, route } ) {
                 toDate: toDate,
                 car: car,
                 days: days,
-                renter_id: userLoggedIn._id
+                renter: userLoggedIn
             };
 
             navigation.navigate(Constants.checkout, { data: tempData })
