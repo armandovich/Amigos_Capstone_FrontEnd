@@ -31,19 +31,20 @@ export default function CarSpects(props) {
 
             <View style={carS.carDetail}>
                 <MaterialCommunityIcons name="tire" size={24} color="#f9c746" />
-                <Text style={[general.whiteTxt, carS.carSpectTxt]}>{car.tires} Tires</Text>
+                <Text style={[general.whiteTxt, carS.carSpectTxt]}>{car.tires}</Text>
             </View>
             
-            <View style={carS.carDetail}>
+            <View style={[carS.carDetail, { display: car.cc == '' ? 'none' : 'block' }]}>
                 <MaterialCommunityIcons name="engine" size={24} color="#f9c746" />
                 <Text style={[general.whiteTxt, carS.carSpectTxt]}>{car.cc}cc</Text>
             </View>
 
-            <View style={carS.carDetail}>
+            <View style={[carS.carDetail, { display: car.max_speed == '' ? 'none' : 'block' }]}>
                 <Ionicons name="speedometer-outline" size={24} color="#f9c746" />
                 <Text style={[general.whiteTxt, carS.carSpectTxt]}>{car.max_speed}km</Text>
             </View>
 
+            {/*
             <View style={carS.carDetail}>
                 <FontAwesome name="location-arrow" size={24} color="#f9c746" />
                 <Text style={[general.whiteTxt, carS.carSpectTxt]}>GPS</Text>
@@ -53,6 +54,7 @@ export default function CarSpects(props) {
                 <MaterialCommunityIcons name="bluetooth" size={24} color="#f9c746" />
                 <Text style={[general.whiteTxt, carS.carSpectTxt]}>Bluetooth</Text>
             </View>
+            */}
         </View>
     );
 }

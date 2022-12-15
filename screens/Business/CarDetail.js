@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Text, Image, ScrollView, View, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import Constants from '../../helpers/Constants.js';
 import Validations from "../../helpers/Validations..js";
 import general from '../../styles/General.js';
@@ -23,6 +23,10 @@ export default function CarDetail( { navigation, route } ) {
     const [pickStartDate, setPickStartDate] = useState(false);
     const [date, setDate] = useState(new Date());
     const [first, setFirst] = useState(true);
+    
+    const goBack = () => {
+        navigation.goBack()
+    };
 
     const onChange = (event, selectedDate) => {
         if(event.type == "set") {
@@ -95,6 +99,11 @@ export default function CarDetail( { navigation, route } ) {
     return (
         <SafeAreaView>
             <GradiendBF/>
+            
+            <Pressable onPress={goBack} style={[general.backBtn]}>
+                <Ionicons name="md-chevron-back" style={general.backIcon} size={24} color="#f9c746" />
+                <Text style={[general.yellowTxt, general.boldTxt]}>BACK</Text>
+            </Pressable>
 
             <ScrollView>
                 <Image style={carS.carImg} source={{uri : fetchLink + '/uploads/cars/' +  car.photo}}/>
@@ -168,7 +177,7 @@ export default function CarDetail( { navigation, route } ) {
                     </Pressable>
                 </View>
 
-                <View style={{marginBottom: 50}}></View>
+                <View style={{marginBottom: 150}}></View>
             </ScrollView>
             
         </SafeAreaView>
