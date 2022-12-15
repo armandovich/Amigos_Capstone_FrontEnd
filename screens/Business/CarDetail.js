@@ -25,15 +25,19 @@ export default function CarDetail( { navigation, route } ) {
     const [first, setFirst] = useState(true);
 
     const performCheckout = () => {
-        const tempData = {
-            amount: cost,
-            fromDate: fromDate,
-            toDate: toDate,
-            car: car,
-            renter_id: userLoggedIn._id
-        };
-        console.log(tempData);
-        navigation.navigate(Constants.checkout, { data: tempData })
+        if(days <= 0) {
+            alert("You must rent the car atleast for 1 day to checkout.");
+        } else {
+            const tempData = {
+                amount: cost,
+                fromDate: fromDate,
+                toDate: toDate,
+                car: car,
+                renter_id: userLoggedIn._id
+            };
+
+            navigation.navigate(Constants.checkout, { data: tempData })
+        }
     }
 
     const goBack = () => {
