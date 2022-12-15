@@ -13,6 +13,7 @@ export default function Checkout({navigation,route}) {
   const [cardDetails, setCardDetails] = useState();
   const { confirmPayment, loading } = useConfirmPayment();
   const amount = route.params.data.amount
+  const days = route.params.data.days
   const fromDate = route.params.data.fromDate
   const toDate = route.params.data.toDate
   const car = route.params.data.car
@@ -126,8 +127,19 @@ export default function Checkout({navigation,route}) {
                   setCardDetails(cardDetails);
                 }}/>
 
-                
-                <Pressable onPress={handlePayPress} style={[general.btn, general.btnDark, general.pushBottom, {minWidth: '100%'}]}>
+                <View style={[general.flexRow, general.flexEven, general.pushBottom]}>
+                  <View style={[general.datePickerCont, {alignItems: 'center'}]}>
+                      <Text style={general.datePickerLabel}>Total days:</Text>
+                      <Text style={[general.yellowTxt, general.boldTxt, {fontSize: 25}]}>{days}</Text>
+                  </View>
+
+                  <View style={[general.datePickerCont, {alignItems: 'center'}]}>
+                      <Text style={general.datePickerLabel}>Total Cost:</Text>
+                      <Text style={[general.yellowTxt, general.boldTxt, {fontSize: 25}]}>${amount}</Text>
+                  </View>
+              </View>
+
+                <Pressable onPress={handlePayPress} style={[general.btn, general.btnDark, general.pushTop, general.pushBottom, {minWidth: '100%'}]}>
                   <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>Pay</Text>
                 </Pressable>
             </View>

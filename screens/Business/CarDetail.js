@@ -33,6 +33,7 @@ export default function CarDetail( { navigation, route } ) {
                 fromDate: fromDate,
                 toDate: toDate,
                 car: car,
+                days: days,
                 renter_id: userLoggedIn._id
             };
 
