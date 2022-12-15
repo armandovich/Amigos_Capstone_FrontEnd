@@ -10,7 +10,11 @@ const StripeApp = props => {
   const [email, setEmail] = useState();
   const [cardDetails, setCardDetails] = useState();
   const { confirmPayment, loading } = useConfirmPayment();
-  let amount = props.amount
+  const amount = props.amount
+  const fromDate = props.fromDate
+  const toDate = props.toDate
+  const car = props.car
+  const renter_id = props.renter_id
 
   const fetchPaymentIntentClientSecret = async () => {
     const response = await fetch(fetchLink + '/api/create-payment-intent/?amount='+ amount,{
@@ -49,6 +53,25 @@ const StripeApp = props => {
         } else if (paymentIntent) {
           alert("Payment Successful");
           console.log("Payment successful ", paymentIntent);
+          const tripData = {
+            car_id: car._id,
+            car_owner_id: car.owner_id,
+            car_name: car.name,
+            car_brand: car.brand,
+            car_photo: car.photo,
+            renter_id: renter_id,
+            cost: amount,
+            start_date: fromDate,
+            end_date:toDate,
+        }
+        fetch(fetchLink + '/api/trip/', {     
+          method: 'POST',
+          body: JSON.stringify(tripData),
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          }).then(res => res.json()).then(data => console.log(data));
+
         }
       }
     } catch (e) {

@@ -10,15 +10,6 @@ import rentS from '../../styles/Rent.js';
 import car from '../../assets/car.jpg';
 import { userLoggedIn } from '../Authentication/Login.js';
 
-const tempList = [
-    { name: 'Car Name A', brand: 'Brand Here', price: 200 },
-    { name: 'Car Name B', brand: 'Brand Here', price: 200 },
-    { name: 'Car Name C', brand: 'Brand Here', price: 200 },
-    { name: 'Car Name C', brand: 'Brand Here', price: 200 },
-    { name: 'Car Name C', brand: 'Brand Here', price: 200 },
-    { name: 'Car Name C', brand: 'Brand Here', price: 200 },
-    { name: 'Car Name C', brand: 'Brand Here', price: 200 },
-];
 
 export default function Rent( { navigation } ) {
     const [carList, setCarList] = useState(null);
