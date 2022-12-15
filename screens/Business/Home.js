@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { Text, View, FlatList, Image, Pressable, TextInput } from 'react-native';
+import { Text, View, FlatList, Image, Pressable, TextInput, ActivityIndicator } from 'react-native';
 import Constants from '../../helpers/Constants.js';
 import GradiendBF from '../../component/GradientBG.js';
 import TopGradien from '../../component/CardGradient.js';
@@ -31,6 +31,7 @@ const filterList = [
 
 
 export default function Profile( { navigation } ) {
+    const [loading, setLoading] = useState(true);
     const [filterOn, setFilterOn] = useState(false);
     const [selecetedBrand, setSelectedBrand] = useState(0);
     const [word, setWord] = useState('');
@@ -67,9 +68,11 @@ export default function Profile( { navigation } ) {
         fetch(fetchLink + '/api/car/?latitude='+ uLocation.latitude + "&longitude=" + uLocation.longitude, {
             method: 'GET',
         }).then(res => res.json()).then(data => {
-            setCarList(data)
+            setLoading(false);
             const tempList = data.filter(car => car.owner_id != userLoggedIn._id);
             setCarList(tempList)
+        }).catch((err) => {
+            setLoading(false);
         });
     }
 
@@ -137,6 +140,13 @@ export default function Profile( { navigation } ) {
                                 }
                             </Pressable>
                             }/>
+                            {loading ? 
+                                <ActivityIndicator style={general.pushTop} size="large" color="#7a6a52" /> 
+                            :<></>}
+
+                            {!loading && carList.length <= 0 ? 
+                                <Text style={[general.yellowTxt, general.boldTxt, general.pushTop, {textAlign: 'center'}]}>Sorry, no cars found near your area.</Text>
+                            :<></>}
                         </View>
                     }
                     numColumns={2}
