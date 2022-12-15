@@ -74,6 +74,7 @@ export default function Checkout({navigation,route}) {
             car_name: car.name,
             car_brand: car.brand,
             car_photo: car.photo,
+            car_address: car.address,
             renter_id: renter._id,
             renter_name: renter.first_name + " " + renter.last_name,
             renter_photo: renter.avatar,
