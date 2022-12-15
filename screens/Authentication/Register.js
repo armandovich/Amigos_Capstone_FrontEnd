@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import * as ImagePicker from 'expo-image-picker';
 import { Camera, CameraType } from 'expo-camera';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, ScrollView, View, TextInput, Pressable, Image, Modal , Button } from 'react-native';
+import { Text, ScrollView, View, TextInput, Pressable, Image, ActivityIndicator } from 'react-native';
 import DropDownPicker from "react-native-dropdown-picker";
 import { AntDesign, FontAwesome, Fontisto, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import Constants from '../../helpers/Constants.js';
@@ -28,6 +28,7 @@ export default function Register( { navigation } ) {
     const [image, setImage] = useState(null);
     const [file, setFile] = useState(null);
     const [permission, setPermission] = useState(null);
+    const [loading, setLoading] = useState(false);
     
 
     const ref = useRef(null)
@@ -108,9 +109,7 @@ export default function Register( { navigation } ) {
                 password:password,
             }
             
-            console.log('=========')
-            console.log(file);
-            console.log('========')
+            setLoading(true);
             
             let data = new FormData();
 
@@ -126,15 +125,15 @@ export default function Register( { navigation } ) {
                 headers: { 'Content-Type': 'multipart/form-data' },
                 body: data
             }).then(res => res.json()).then(data => {
-                console.log(data)
-
-                console.log(data)
+                setLoading(false);
+                
                 if(data.message) {
                     alert(data.message)
                 } else {
                     navigation.replace(Constants.login, { user: data });
                 }
             }).catch(err => {
+                setLoading(false);
                 alert("Sorry there was an error with your request.")
             });
         }
@@ -171,9 +170,7 @@ export default function Register( { navigation } ) {
                             
                             <View style={[general.flexRow, general.flexEven, general.fullW]}>
                                 <Pressable style={[general.mediaBtn]}
-                                onPress={takePicture}
-
-                                >
+                                onPress={takePicture}>
                                     <Feather name="camera" size={24} color="#f9c746" />
                                     <Text style={general.whiteTxt}>Camera</Text>
                                 </Pressable>
@@ -186,10 +183,6 @@ export default function Register( { navigation } ) {
                             </View>
                         </View>
                     </View>
-
-                    
-
-                    
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <FontAwesome style={general.inputIcon} name="user-o" size={24} color="#f9c746" />
@@ -252,13 +245,21 @@ export default function Register( { navigation } ) {
                         placeholder='Verify Password' placeholderTextColor="#FFF" secureTextEntry/>
                     </View>
 
-                    <Pressable onPress={() => performRegister()} style={[general.btn, general.btnDark, general.pushBottom]}>
-                        <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>REGISTER</Text>
-                    </Pressable>
+                    {loading ?
+                        <ActivityIndicator size="large" color="#7a6a52" />
+                    :
+                    <>
+                        <Pressable onPress={() => performRegister()} style={[general.btn, general.btnDark, general.pushBottom]}>
+                            <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>REGISTER</Text>
+                        </Pressable>
 
-                    <Pressable onPress={() => goToScreen(Constants.login)} style={[general.btn, general.btnBorder]}>
-                        <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>LOGIN</Text>
-                    </Pressable>
+                        <Pressable onPress={() => goToScreen(Constants.login)} style={[general.btn, general.btnBorder]}>
+                            <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>LOGIN</Text>
+                        </Pressable>
+                    </>
+                    }
+                    
+
                 </ScrollView>
             </View>
         </SafeAreaView>
