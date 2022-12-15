@@ -87,13 +87,13 @@ export default function Register( { navigation } ) {
     }
 
     const performRegister = () => {
-        if(!file || email == '' || password == '' || fName == '' || lastName == '' || verify == '' || value == null){
+        if(!file || email == '' || password == '' || fName == '' || lastName == '' || verify == '' || value == null) {
             alert("Please fill all the inputs!")
-        }else if(password != verify){
+        } else if(password != verify){
             alert("Passwords are not the same!")
-        }else if(password.length <6){
+        } else if(password.length < 6){
             alert("Password must be at least 6 characters!")
-        }else{
+        } else{
             let cntry = ""
             for(let i=0;i<countryList.length;i++){
                 if(countryList[i].value == value){

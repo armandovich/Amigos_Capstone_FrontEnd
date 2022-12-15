@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, View, Pressable, FlatList, Image } from 'react-native';
+import { Text, View, Pressable, FlatList, Image, ActivityIndicator } from 'react-native';
 import GradiendBF from '../../component/GradientBG.js';
 import Constants from '../../helpers/Constants.js';
 import fetchLink from '../../helpers/fetchLink.js';
@@ -12,7 +12,8 @@ import { userLoggedIn } from '../Authentication/Login.js';
 
 
 export default function Rent( { navigation } ) {
-    const [carList, setCarList] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [carList, setCarList] = useState([]);
     const carCrud = (index, isEditMode) => {
         const tempCar = isEditMode ? carList[index] : null;
         navigation.navigate(Constants.rentcrud, { isEdit: isEditMode, car: tempCar })
@@ -22,10 +23,11 @@ export default function Rent( { navigation } ) {
         fetch(fetchLink + '/api/car/' + userLoggedIn._id, {
             method: 'GET'
         }).then(res => res.json()).then(data => {
-            console.log(data);
+            setLoading(false);
             setCarList(data);
         }).catch(function(error) { 
-          console.log(error); 
+            setLoading(false);
+          //console.log(error); 
         })
     };
 
@@ -42,17 +44,29 @@ export default function Rent( { navigation } ) {
             <GradiendBF/>
             
             <View style={[general.paddingH, general.fullW]}>
-                <Text style={[general.headline, general.whiteTxt]}>Your Cars:</Text>
-               
                 <Pressable onPress={() => carCrud(0, false)} 
                 style={[rentS.addBtn]}>
-                    <Entypo name="plus" size={24} color="#f9c746" />
+                    <Entypo name="plus" style={{marginRight: 8}} size={24} color="#f9c746" />
+                    <Text style={[general.yellowTxt, general.boldTxt]}>Rent New Car</Text>
                 </Pressable>
             </View>
 
 
             <View style={general.carBlockList}>
                 <FlatList style={[general.fullW, general.paddingH]}
+                ListHeaderComponent={
+                    <>
+                    { loading ?
+                        <ActivityIndicator size="large" color="#7a6a52" />
+                    :<></>}
+
+                    { !loading && carList.length <= 0?
+                        <Text style={[general.yellowTxt, general.boldTxt, general.pushTop, {textAlign: 'center'}]}>No Car Posted</Text>
+                    :
+                    <></>
+                    }
+                    </>
+                }
                 data={carList} 
                 renderItem={({ item, index }) => 
                     <Pressable onPress={() => carCrud(index, true)}

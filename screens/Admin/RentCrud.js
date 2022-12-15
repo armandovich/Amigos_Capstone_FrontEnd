@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import { useState, useEffect } from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, Pressable, View, TextInput, ScrollView, Image, Button } from 'react-native';
+import { Text, Pressable, View, TextInput, ScrollView, Image, ActivityIndicator } from 'react-native';
 import { AntDesign, FontAwesome, Ionicons, MaterialCommunityIcons, FontAwesome5, Entypo } from '@expo/vector-icons';
 import DropDownPicker from "react-native-dropdown-picker";
 import GradiendBF from '../../component/GradientBG.js';
@@ -39,6 +39,7 @@ export default function RentCrud( { navigation, route } ) {
     const [tiresList, setTiresList] = useState(Constants.tierTypes);
     const [cc, setCc] = useState(0);
     const [km, setKm] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     //MAPS
     const[Location,setLocation] = useState(null)
@@ -99,14 +100,32 @@ export default function RentCrud( { navigation, route } ) {
         setLocation(loc);
     };
 
+    const performCarCreation = () => {
+        if(!image && marker.length <= 0 || name == '' || brand == null || price == '' || address == '' || 
+        doors == '' || seats == '' || fuel == null || trans == null || tires == null) {
+            alert("Please fill all the inputs!")
+        } else {
+            createCar();
+        }
+    }
+
+    const performCarUdate = () => {
+        if(!image && marker.length <= 0 || name == '' || brand == null || price == '' || address == '' || 
+        doors == '' || seats == '' || fuel == null || trans == null || tires == null) {
+            alert("Please fill all the inputs!")
+        } else {
+            updateCar();
+        }
+    }
+
     const createCar = async () => {
         const carData = {
             name: name,
             brand: brand,
             price: price,
             address: address,
-            latitude: mapRegion.latitude,
-            longitude: mapRegion.longitude,
+            latitude: marker[0].latitude,
+            longitude: marker[0].longitude,
             doors: doors,
             seats: seats,
             fuel: fuel,
@@ -116,6 +135,9 @@ export default function RentCrud( { navigation, route } ) {
             max_speed: km,
             owner_id: userLoggedIn._id
         };
+
+        setLoading(true);
+
         let data = new FormData();
 
         let filename = image.split('/').pop();
@@ -130,26 +152,30 @@ export default function RentCrud( { navigation, route } ) {
             headers: { 'Content-Type': 'multipart/form-data' },
             body: data
         }).then(res => res.json()).then(data => {
-            console.log(data)
+            setLoading(false);
+
             if(data.message) {
                 alert(data.message)
             } else {
+                clearInputs();
                 alert("Car has been created.")
             }
         }).catch(err => {
+            setLoading(false);
             alert("Sorry there was an error with your request.")
         });
     };
 
     const updateCar = async () => {
+        
         const carData = {
             photo: car.photo,
             name: name,
             brand: brand,
             price: price,
             address: address,
-            latitude: mapRegion.latitude,
-            longitude: mapRegion.longitude,
+            latitude: marker[0].latitude,
+            longitude: marker[0].longitude,
             doors: doors,
             seats: seats,
             fuel: fuel,
@@ -164,10 +190,9 @@ export default function RentCrud( { navigation, route } ) {
             owner_id: car.owner_id
         };
 
-        let data = new FormData();
+        setLoading(true);
 
-        console.log(mapRegion.latitude);
-        console.log(mapRegion.longitude);
+        let data = new FormData();
         
         const tempUri = fetchLink + '/uploads/cars/' + car.photo;
         
@@ -186,13 +211,15 @@ export default function RentCrud( { navigation, route } ) {
             headers: { 'Content-Type': 'multipart/form-data' },
             body: data
         }).then(res => res.json()).then(data => {
-            console.log(data)
+            setLoading(false);
+
             if(data.message) {
                 alert(data.message)
             } else {
                 alert("Car has been updated.")
             }
         }).catch(err => {
+            setLoading(false);
             alert("Sorry there was an error with your request.")
         });
     };
@@ -202,6 +229,7 @@ export default function RentCrud( { navigation, route } ) {
     };
 
     const clearInputs = () => {
+        image(null);
         setName('');
         setBrand(null);
         setPrice('');
@@ -213,6 +241,7 @@ export default function RentCrud( { navigation, route } ) {
         setTires(null);
         setCc('');
         setKm('');
+        setMarker([]);
     };
 
     useEffect(() => {
@@ -243,12 +272,10 @@ export default function RentCrud( { navigation, route } ) {
             setBrand(tempCar.brand);
             setPrice(tempCar.price);
             setAddress(tempCar.address);
-            setMapRegion({
-                longitude: tempCar.longitude,
-                latitude: tempCar.latitude,
-                longitudeDelta: 0.0922,
-                latitudeDelta: 0.0421
-            })
+            setMarker([{
+                    longitude: tempCar.longitude,
+                    latitude: tempCar.latitude
+            }]);
             setDoors(tempCar.doors + '');
             setSteats(tempCar.seats + '');
             setFuel(tempCar.fuel);
@@ -274,7 +301,11 @@ export default function RentCrud( { navigation, route } ) {
                 </Pressable>
 
                 <ScrollView style={[general.fullW, general.paddingH]}>
-                    <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Rent Your Car:</Text>
+                    {isEdit ? 
+                        <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Edit Your Car:</Text>
+                    :
+                        <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Rent Your Car:</Text>
+                    }
 
                     <View style={rentS.pickerContainer}>
                         {image ? 
@@ -450,9 +481,13 @@ export default function RentCrud( { navigation, route } ) {
                         placeholder='Max speed (km)' placeholderTextColor="#FFF" />
                     </View>
                     
-                    {isEdit ?
+                    { loading ?
+                        <ActivityIndicator size="large" color="#7a6a52" />
+                    :<></>}
+
+                    { !loading && isEdit ?
                     <>
-                        <Pressable onPress={updateCar} style={[general.btn, general.btnDark, general.pushBottom]}>
+                        <Pressable onPress={performCarUdate} style={[general.btn, general.btnDark, general.pushBottom]}>
                             <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>UPDATE</Text>
                         </Pressable>
 
@@ -460,11 +495,13 @@ export default function RentCrud( { navigation, route } ) {
                             <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>DELETE</Text>
                         </Pressable>
                     </>
-                    :
-                        <Pressable onPress={createCar} style={[general.btn, general.btnDark, general.pushBottom]}>
+                    :<></>}
+
+                    { !loading && !isEdit ?
+                        <Pressable onPress={performCarCreation} style={[general.btn, general.btnDark, general.pushBottom]}>
                             <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>CREATE</Text>
                         </Pressable>
-                    }
+                    :<></>}
 
                     <View style={{marginBottom: 50}}></View>
                 </ScrollView>

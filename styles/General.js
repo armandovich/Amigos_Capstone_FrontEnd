@@ -291,5 +291,5 @@ export default StyleSheet.create({
     },
     backIcon: {
         paddingRight: 15
-    }
+    },
 });
