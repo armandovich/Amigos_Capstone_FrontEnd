@@ -18,7 +18,7 @@ export default function Checkout({navigation,route}) {
   const fromDate = route.params.data.fromDate
   const toDate = route.params.data.toDate
   const car = route.params.data.car
-  const renter_id = route.params.data.renter_id
+  const renter = route.params.data.renter
 
   const goBack = () => {
     navigation.goBack()
@@ -74,7 +74,9 @@ export default function Checkout({navigation,route}) {
             car_name: car.name,
             car_brand: car.brand,
             car_photo: car.photo,
-            renter_id: renter_id,
+            renter_id: renter._id,
+            renter_name: renter.first_name + " " + renter.last_name,
+            renter_photo: renter.avatar,
             cost: amount,
             start_date: fromDate,
             end_date:toDate,
