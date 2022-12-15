@@ -12,6 +12,7 @@ let userLoggedIn;
 export default function Login( { navigation, route } ) {
     const [user, setUser] = useState('miolan96@gmail.com');
     const [password, setPassword] = useState('123456');
+    const [loading, setLoading] = useState(false);
 
     const goToScreen = (value) => {
         navigation.navigate({ name: value });
@@ -21,6 +22,8 @@ export default function Login( { navigation, route } ) {
       if(user == '' || password == ''){
         alert("Please fill in all the inputs!")
       }else{
+        setLoading(true);
+
         const userData = {
           email: user,
           password:password,
@@ -30,16 +33,18 @@ export default function Login( { navigation, route } ) {
         fetch(fetchLink + '/api/user/?email='+ userData.email + "&password=" + userData.password, {
             method: 'GET'
         }).then(res => res.json()).then(data => {
+          setLoading(false);
+
           if(data.message == "User not found."){
             alert("Please check your email and password.")
           }else{
-            console.log(data)
             userLoggedIn = data
             alert("Login successful!")
             goToScreen(Constants.footer)
           }
         }).catch(function(error) { 
-          console.log(error); 
+          setLoading(false);
+          alert("Sorry there was an error with your request.")
         })
       }
     }
@@ -73,13 +78,20 @@ export default function Login( { navigation, route } ) {
                     placeholder='Password' placeholderTextColor="#FFF" secureTextEntry/>
                 </View>
 
-                <Pressable onPress={() => performLogin()} style={[general.btn, general.btnDark, general.pushBottom]}>
-                    <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>LOGIN</Text>
-                </Pressable>
+                {loading ?
+                  <ActivityIndicator size="large" color="#7a6a52" />
+                :
+                <>
+                  <Pressable onPress={() => performLogin()} style={[general.btn, general.btnDark, general.pushBottom]}>
+                      <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>LOGIN</Text>
+                  </Pressable>
 
-                <Pressable onPress={() => goToScreen(Constants.register)} style={[general.btn, general.btnBorder]}>
-                    <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>REGISTER</Text>
-                </Pressable>
+                  <Pressable onPress={() => goToScreen(Constants.register)} style={[general.btn, general.btnBorder]}>
+                      <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>REGISTER</Text>
+                  </Pressable>
+                </>
+                }
+                
             </View>
         </SafeAreaView>
     );
