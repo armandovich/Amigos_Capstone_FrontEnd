@@ -297,5 +297,8 @@ export default StyleSheet.create({
     },
     tripHeight: {
         height: windowHeight - 70
+    },
+    payHeight: {
+        height: windowHeight - 100
     }
 });

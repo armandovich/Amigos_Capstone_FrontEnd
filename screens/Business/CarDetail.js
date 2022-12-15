@@ -23,7 +23,19 @@ export default function CarDetail( { navigation, route } ) {
     const [pickStartDate, setPickStartDate] = useState(false);
     const [date, setDate] = useState(new Date());
     const [first, setFirst] = useState(true);
-    
+
+    const performCheckout = () => {
+        const tempData = {
+            amount: cost,
+            fromDate: fromDate,
+            toDate: toDate,
+            car: car,
+            renter_id: userLoggedIn._id
+        };
+        console.log(tempData);
+        navigation.navigate(Constants.checkout, { data: tempData })
+    }
+
     const goBack = () => {
         navigation.goBack()
     };
@@ -172,7 +184,7 @@ export default function CarDetail( { navigation, route } ) {
                         </View>
                     </View>
 
-                    <Pressable onPress={() => navigation.navigate(Constants.checkout, {amount: cost, fromDate:fromDate, toDate:toDate, car:car, renter_id:userLoggedIn._id})} style={[general.btn, general.btnDark, general.pushBottom]}>
+                    <Pressable onPress={performCheckout} style={[general.btn, general.btnDark, general.pushBottom]}>
                         <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>CHECKOUT</Text>
                     </Pressable>
                 </View>

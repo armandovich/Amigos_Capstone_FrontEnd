@@ -41,10 +41,6 @@ export default function Register( { navigation } ) {
     //     }
     // }
 
-   
-    
-    
-
     const askPermission = async () => {
         const { status } = await Camera.requestCameraPermissionsAsync();
         setPermission(status === 'granted');
