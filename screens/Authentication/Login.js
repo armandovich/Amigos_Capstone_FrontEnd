@@ -11,7 +11,6 @@ let userLoggedIn;
 
 export default function Login( { navigation, route } ) {
     const [user, setUser] = useState('bg@bg.com');
-    //const [user, setUser] = useState('miolan96@gmail.com');
     const [password, setPassword] = useState('123456');
     const [loading, setLoading] = useState(false);
 
