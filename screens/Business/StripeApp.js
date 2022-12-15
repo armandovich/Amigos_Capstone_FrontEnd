@@ -10,9 +10,10 @@ const StripeApp = props => {
   const [email, setEmail] = useState();
   const [cardDetails, setCardDetails] = useState();
   const { confirmPayment, loading } = useConfirmPayment();
+  let amount = props.amount
 
   const fetchPaymentIntentClientSecret = async () => {
-    const response = await fetch(fetchLink + '/api/create-payment-intent', {
+    const response = await fetch(fetchLink + '/api/create-payment-intent/?amount='+ amount,{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
