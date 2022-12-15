@@ -6,9 +6,10 @@ import { StripeProvider, CardField, useConfirmPayment } from "@stripe/stripe-rea
 import fetchLink from "../../helpers/fetchLink";
 import GradiendBF from '../../component/GradientBG.js';
 import general from '../../styles/General.js';
+import { userLoggedIn } from "../Authentication/Login.js";
 
 export default function Checkout({navigation,route}) {
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState(userLoggedIn.email);
   const [cardDetails, setCardDetails] = useState();
   const { confirmPayment, loading } = useConfirmPayment();
   const amount = route.params.data.amount
@@ -105,7 +106,8 @@ export default function Checkout({navigation,route}) {
                   autoCapitalize="none"
                   placeholder="E-mail"
                   keyboardType="email-address"
-                  onChange={value => setEmail(value.nativeEvent.text)}
+                  value={email}
+                  onChange={value => setEmail()}
                   style={general.input} placeholderTextColor="#FFF"/>
                 </View>
                             
