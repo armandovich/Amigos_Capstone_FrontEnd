@@ -36,51 +36,7 @@ export default function Profile( { navigation } ) {
     const [word, setWord] = useState('');
     const [uLocation, setULocation] = useState({})
     const [carList, setCarList] = useState([])
-
-    const getUserLocation = async () => {
-        const userLocation = await Location.getCurrentPositionAsync();
-        setULocation(userLocation.coords)
-    };
-
-    const getCarsDB = () => {
-        fetch(fetchLink + '/api/car/?latitude='+ uLocation.latitude + "&longitude=" + uLocation.longitude, {
-            method: 'GET',
-        }).then(res => res.json()).then(data => {
-            //setCarList(data)
-            console.log('==========')
-            console.log(uLocation.latitude , uLocation.longitude )
-            console.log(data)
-            console.log('==========')
-            const tempList = data.filter(car => car.owner_id != userLoggedIn._id);
-            setCarList(tempList)
-        });
-    }
-
-    useEffect(() => {
-       //getUserLocation()
-       //getCarsDB()
-    }, [uLocation]);
-
-    useEffect(() => {
-       getUserLocation()
-       getCarsDB()
-    }, []);
-
-    const getData = async () => {
-        const userLocation = await Location.getCurrentPositionAsync();
-        if(userLocation) {
-            getCarsDB()
-        }
-    }
-
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            //getData()
-            getCarsDB()
-        });
-        
-        return unsubscribe;
-    }, [navigation]);
+    const [prevent, setPrevent] = useState(false);
 
     const openCar = (index) => {
         navigation.navigate(Constants.carDetail, { car: carList[index] })
@@ -93,6 +49,43 @@ export default function Profile( { navigation } ) {
     const toggleFilter = () => {
         setFilterOn(!filterOn);
     }
+
+    const getUserLocation = async () => {
+        if(!prevent) {
+            setPrevent(true);
+
+            const userLocation = await Location.getCurrentPositionAsync();
+
+            if(userLocation) {
+                setPrevent(false);
+                setULocation(userLocation.coords)
+            }
+        }
+    };
+
+    const getCarsDB = async () => {
+        fetch(fetchLink + '/api/car/?latitude='+ uLocation.latitude + "&longitude=" + uLocation.longitude, {
+            method: 'GET',
+        }).then(res => res.json()).then(data => {
+            setCarList(data)
+            const tempList = data.filter(car => car.owner_id != userLoggedIn._id);
+            setCarList(tempList)
+        });
+    }
+
+    useEffect(() => {
+        if(uLocation.latitude) {
+            getCarsDB()
+        }
+    }, [uLocation]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            getUserLocation();
+        });
+        
+        return unsubscribe;
+    }, [navigation]);
 
     return (
         <SafeAreaView>
