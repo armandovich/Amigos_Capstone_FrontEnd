@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
+import { StyleSheet, Text, View, Pressable, TextInput, ActivityIndicator } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { StripeProvider, CardField, useConfirmPayment } from "@stripe/stripe-react-native";
 import fetchLink from "../../helpers/fetchLink";
@@ -9,6 +9,7 @@ import general from '../../styles/General.js';
 import { userLoggedIn } from "../Authentication/Login.js";
 
 export default function Checkout({navigation,route}) {
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState(userLoggedIn.email);
   const [cardDetails, setCardDetails] = useState();
   const { confirmPayment, loading } = useConfirmPayment();
@@ -48,11 +49,13 @@ export default function Checkout({navigation,route}) {
 
     //2.Fetch the intent client secret from the backend
     try {
+      setIsLoading(true);
       const { clientSecret, error } = await fetchPaymentIntentClientSecret();
       
       //2. confirm the payment
       if (error) {
-        console.log("Unable to process payment");
+        setIsLoading(false);
+        alert("Unable to process payment");
       } else {
         const { paymentIntent, error } = await confirmPayment(clientSecret, {
           paymentMethodType: "Card",
@@ -60,6 +63,7 @@ export default function Checkout({navigation,route}) {
         });
 
         if (error) {
+          setIsLoading(false);
           alert(`Payment Confirmation Error ${error.message}`);
         } else if (paymentIntent) {
           alert("Payment Successful");
@@ -81,12 +85,18 @@ export default function Checkout({navigation,route}) {
           headers: {
               'Content-Type': 'application/json'
           },
-          }).then(res => res.json()).then(data => console.log(data));
+          }).then(res => res.json()).then((data) => {
+            //console.log(data)
+            setIsLoading(false);
+          }).catch((err) => {
+            setIsLoading(false);
+          });
 
         }
       }
     } catch (e) {
-      console.log(e);
+      //console.log(e);
+      setIsLoading(false);
     }
     //3.Confirm the payment with the card details
   };
@@ -138,10 +148,14 @@ export default function Checkout({navigation,route}) {
                       <Text style={[general.yellowTxt, general.boldTxt, {fontSize: 25}]}>${amount}</Text>
                   </View>
               </View>
-
+              
+              {isLoading ? 
+                <ActivityIndicator size="large" color="#7a6a52" />
+              :
                 <Pressable onPress={handlePayPress} style={[general.btn, general.btnDark, general.pushTop, general.pushBottom, {minWidth: '100%'}]}>
                   <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>Pay</Text>
                 </Pressable>
+              }
             </View>
           </View>
         </StripeProvider>

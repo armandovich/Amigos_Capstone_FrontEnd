@@ -18,7 +18,7 @@ export default {
         { label: 'BMW', value: 'BMW' },
         { label: 'Fiat', value: 'Fiat' },
         { label: 'Honda', value: 'Honda' },
-        { label: 'Lamborhini', value: 'Lamborhini' },
+        { label: 'Lamborghini', value: 'Lamborghini' },
         { label: 'Mercedes', value: 'Mercedes' },
         { label: 'Nissan', value: 'Nissan' },
         { label: 'Toyota', value: 'Toyota' },

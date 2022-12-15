@@ -140,10 +140,10 @@ export default function RentCrud( { navigation, route } ) {
 
         let data = new FormData();
 
-        let filename = image.split('/').pop();
+        let filename = image.split('\\/').pop();
         let match = /\.(\w+)$/.exec(filename);
         let type = match ? `image/${match[1]}` : `image`;
-        
+
         data.append('photo', { uri: image, name: filename, type });
         data.append('car', JSON.stringify(carData))
 
@@ -154,7 +154,7 @@ export default function RentCrud( { navigation, route } ) {
         }).then(res => res.json()).then(data => {
             setLoading(false);
 
-            if(data.message) {
+            if(data && data.message) {
                 alert(data.message)
             } else {
                 clearInputs();
@@ -162,7 +162,12 @@ export default function RentCrud( { navigation, route } ) {
             }
         }).catch(err => {
             setLoading(false);
-            alert("Sorry there was an error with your request.")
+
+            if(err.name == 'TypeError') {
+                alert("Car has been created.")
+            } else {
+                alert("Sorry there was an error with your request.")
+            }
         });
     };
 
@@ -225,7 +230,14 @@ export default function RentCrud( { navigation, route } ) {
     };
 
     const deleteCar = async () => {
-
+        fetch(fetchLink + '/api/car/' + car._id, {
+            method: 'DELETE'
+        }).then(res => res.json()).then(data => {
+            setLoading(false);
+            setCarList(data);
+        }).catch(function(error) { 
+            setLoading(false);
+        })
     };
 
     const clearInputs = () => {
@@ -391,14 +403,14 @@ export default function RentCrud( { navigation, route } ) {
                         <View style={[general.inputGroup, general.pushBottom]}>
                             <MaterialCommunityIcons style={general.inputIcon} name="car-door" size={24} color="#f9c746" />
                             <TextInput style={general.input} 
-                            onChangeText={setDoors} value={doors} 
+                            onChangeText={setDoors} value={doors} keyboardType='numeric'
                             placeholder='Doors' placeholderTextColor="#FFF" />
                         </View>
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <MaterialCommunityIcons style={general.inputIcon} name="car-seat" size={24} color="#f9c746" />
                         <TextInput style={general.input} 
-                        onChangeText={setSteats} value={seats} 
+                        onChangeText={setSteats} value={seats} keyboardType='numeric'
                         placeholder='Seats' placeholderTextColor="#FFF" />
                     </View>
 

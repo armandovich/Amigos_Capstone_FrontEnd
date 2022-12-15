@@ -7,7 +7,6 @@ import Constants from '../../helpers/Constants.js';
 import fetchLink from '../../helpers/fetchLink.js';
 import general from '../../styles/General.js';
 import rentS from '../../styles/Rent.js';
-import car from '../../assets/car.jpg';
 import { userLoggedIn } from '../Authentication/Login.js';
 
 
