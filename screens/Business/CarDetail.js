@@ -162,7 +162,7 @@ export default function CarDetail( { navigation, route } ) {
                         </View>
                     </View>
 
-                    <Pressable onPress={() => goToScreen(Constants.checkout)} style={[general.btn, general.btnDark, general.pushBottom]}>
+                    <Pressable onPress={() => navigation.navigate(Constants.checkout, {amount: cost})} style={[general.btn, general.btnDark, general.pushBottom]}>
                         <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>CHECKOUT</Text>
                     </Pressable>
                 </View>
