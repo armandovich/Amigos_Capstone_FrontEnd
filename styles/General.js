@@ -292,4 +292,10 @@ export default StyleSheet.create({
     backIcon: {
         paddingRight: 15
     },
+    rentHeight: {
+        height: windowHeight - 63
+    },
+    tripHeight: {
+        height: windowHeight - 70
+    }
 });

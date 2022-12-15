@@ -40,7 +40,7 @@ export default function Trip( { navigation } ) {
                 <Text style={[general.headline, general.whiteTxt]}>Cars you rented:</Text>
             </View>
 
-            <View style={general.carBlockList}>
+            <View style={[general.carBlockList, general.tripHeight]}>
                 <FlatList style={[general.fullW, general.paddingH]}
                 data={tripList} 
                 renderItem={({ item, index }) => 

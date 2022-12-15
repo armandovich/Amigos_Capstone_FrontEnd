@@ -45,14 +45,14 @@ export default function Rent( { navigation } ) {
             
             <View style={[general.paddingH, general.fullW]}>
                 <Pressable onPress={() => carCrud(0, false)} 
-                style={[rentS.addBtn]}>
+                style={[rentS.addBtn, general.pushTop]}>
                     <Entypo name="plus" style={{marginRight: 8}} size={24} color="#f9c746" />
                     <Text style={[general.yellowTxt, general.boldTxt]}>Rent New Car</Text>
                 </Pressable>
             </View>
 
 
-            <View style={general.carBlockList}>
+            <View style={[general.carBlockList, general.rentHeight]}>
                 <FlatList style={[general.fullW, general.paddingH]}
                 ListHeaderComponent={
                     <>
