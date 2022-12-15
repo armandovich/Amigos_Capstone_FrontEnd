@@ -10,8 +10,8 @@ import fetchLink from "../../helpers/fetchLink.js";
 let userLoggedIn;
 
 export default function Login( { navigation, route } ) {
-    const [user, setUser] = useState('');
-    const [password, setPassword] = useState('');
+    const [user, setUser] = useState('miolan96@gmail.com');
+    const [password, setPassword] = useState('123456');
 
     const goToScreen = (value) => {
         navigation.navigate({ name: value });

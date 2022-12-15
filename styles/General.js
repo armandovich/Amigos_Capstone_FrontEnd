@@ -278,5 +278,18 @@ export default StyleSheet.create({
         borderRadius: 8,
         width: '46%',
         paddingVertical: 10
+    },
+    backBtn: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        width: '100%',
+        padding: 15,
+        borderBottomColor: brown,
+        borderBottomWidth: 1,
+        zIndex: 1
+    },
+    backIcon: {
+        paddingRight: 15
     }
 });

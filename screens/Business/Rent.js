@@ -23,7 +23,8 @@ const tempList = [
 export default function Rent( { navigation } ) {
     const [carList, setCarList] = useState(null);
     const carCrud = (index, isEditMode) => {
-        navigation.navigate(Constants.rentcrud, { isEdit: isEditMode, car: carList[index] })
+        const tempCar = isEditMode ? carList[index] : null;
+        navigation.navigate(Constants.rentcrud, { isEdit: isEditMode, car: tempCar })
     }
 
     const loadUserCars = async () => {

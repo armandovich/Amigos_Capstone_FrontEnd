@@ -47,24 +47,38 @@ export default function Profile( { navigation } ) {
             method: 'GET',
         }).then(res => res.json()).then(data => {
             //setCarList(data)
-            setCarList(data.filter(car => car.owner_id != userLoggedIn._id))
+            console.log('==========')
+            console.log(uLocation.latitude , uLocation.longitude )
+            console.log(data)
+            console.log('==========')
+            const tempList = data.filter(car => car.owner_id != userLoggedIn._id);
+            setCarList(tempList)
         });
     }
 
     useEffect(() => {
-        getUserLocation()
-        getCarsDB()
+       //getUserLocation()
+       //getCarsDB()
     }, [uLocation]);
 
     useEffect(() => {
-        getUserLocation()
-        getCarsDB()
+       getUserLocation()
+       getCarsDB()
     }, []);
+
+    const getData = async () => {
+        const userLocation = await Location.getCurrentPositionAsync();
+        if(userLocation) {
+            getCarsDB()
+        }
+    }
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
+            //getData()
             getCarsDB()
         });
+        
         return unsubscribe;
     }, [navigation]);
 

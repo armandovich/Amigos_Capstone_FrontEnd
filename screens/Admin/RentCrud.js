@@ -16,6 +16,7 @@ import { Marker , Callout } from "react-native-maps";
 import * as location from "expo-location";
 
 export default function RentCrud( { navigation, route } ) {
+    const [car, setCar] = useState();
     const [isEdit, setIsEdit] = useState(false);
     const [status, requestPermission] = ImagePicker.useCameraPermissions();
     const [image, setImage] = useState(null);
@@ -60,6 +61,10 @@ export default function RentCrud( { navigation, route } ) {
         longitude: -79.335951,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
+    };
+
+    const goBack = () => {
+        navigation.goBack()
     };
 
     const pickImage = async () => {
@@ -113,9 +118,6 @@ export default function RentCrud( { navigation, route } ) {
         };
         let data = new FormData();
 
-        console.log(mapRegion.latitude);
-        console.log(mapRegion.longitude);
-
         let filename = image.split('/').pop();
         let match = /\.(\w+)$/.exec(filename);
         let type = match ? `image/${match[1]}` : `image`;
@@ -140,7 +142,59 @@ export default function RentCrud( { navigation, route } ) {
     };
 
     const updateCar = async () => {
+        const carData = {
+            photo: car.photo,
+            name: name,
+            brand: brand,
+            price: price,
+            address: address,
+            latitude: mapRegion.latitude,
+            longitude: mapRegion.longitude,
+            doors: doors,
+            seats: seats,
+            fuel: fuel,
+            transmition: trans,
+            tires, tires,
+            cc: cc,
+            max_speed: km,
+            bluetooth: car.bluetooth,
+            gps: car.gps,
+            score: car.score,
+            reviews: car.reviews,
+            owner_id: car.owner_id
+        };
 
+        let data = new FormData();
+
+        console.log(mapRegion.latitude);
+        console.log(mapRegion.longitude);
+        
+        const tempUri = fetchLink + '/uploads/cars/' + car.photo;
+        
+        if(tempUri != image) {
+            let filename = image.split('/').pop();
+            let match = /\.(\w+)$/.exec(filename);
+            let type = match ? `image/${match[1]}` : `image`;
+
+            data.append('photo', { uri: image, name: filename, type });
+        }
+
+        data.append('car', JSON.stringify(carData))
+
+        fetch(fetchLink + '/api/car/' + car._id, { 
+            method: 'PATCH',
+            headers: { 'Content-Type': 'multipart/form-data' },
+            body: data
+        }).then(res => res.json()).then(data => {
+            console.log(data)
+            if(data.message) {
+                alert(data.message)
+            } else {
+                alert("Car has been updated.")
+            }
+        }).catch(err => {
+            alert("Sorry there was an error with your request.")
+        });
     };
 
     const deleteCar = async () => {
@@ -181,6 +235,28 @@ export default function RentCrud( { navigation, route } ) {
     useEffect(() => {
         requestMapPermission();
         setIsEdit(route.params.isEdit);
+        if(route.params.car) {
+            const tempCar = route.params.car;
+            setCar(tempCar);
+            setImage(fetchLink + '/uploads/cars/' + tempCar.photo);
+            setName(tempCar.name);
+            setBrand(tempCar.brand);
+            setPrice(tempCar.price);
+            setAddress(tempCar.address);
+            setMapRegion({
+                longitude: tempCar.longitude,
+                latitude: tempCar.latitude,
+                longitudeDelta: 0.0922,
+                latitudeDelta: 0.0421
+            })
+            setDoors(tempCar.doors + '');
+            setSteats(tempCar.seats + '');
+            setFuel(tempCar.fuel);
+            setTrans(tempCar.transmition);
+            setTires(tempCar.tires);
+            setCc(tempCar.cc);
+            setKm(tempCar.max_speed);
+        }
     },[]);
 
     const handleNewMarker = (coordinate) => {
@@ -192,9 +268,14 @@ export default function RentCrud( { navigation, route } ) {
             <GradiendBF/>
 
             <View style={[general.centerContainer]}>
-                <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Rent Your Car:</Text>
+                <Pressable onPress={goBack} style={[general.backBtn]}>
+                    <Ionicons name="md-chevron-back" style={general.backIcon} size={24} color="#f9c746" />
+                    <Text style={[general.yellowTxt, general.boldTxt]}>BACK</Text>
+                </Pressable>
 
                 <ScrollView style={[general.fullW, general.paddingH]}>
+                    <Text style={[ general.whiteTxt, general.headline, general.boldTxt, general.centerTxt]}>Rent Your Car:</Text>
+
                     <View style={rentS.pickerContainer}>
                         {image ? 
                             <Image style={rentS.pickerImg} source={{ uri: image }}/>
@@ -368,10 +449,22 @@ export default function RentCrud( { navigation, route } ) {
                         onChangeText={setKm} value={km} 
                         placeholder='Max speed (km)' placeholderTextColor="#FFF" />
                     </View>
+                    
+                    {isEdit ?
+                    <>
+                        <Pressable onPress={updateCar} style={[general.btn, general.btnDark, general.pushBottom]}>
+                            <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>UPDATE</Text>
+                        </Pressable>
 
-                    <Pressable onPress={createCar} style={[general.btn, general.btnDark, general.pushBottom]}>
-                        <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>CREATE</Text>
-                    </Pressable>
+                        <Pressable onPress={deleteCar} style={[general.btn, general.btnBorder, general.pushBottom]}>
+                            <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>DELETE</Text>
+                        </Pressable>
+                    </>
+                    :
+                        <Pressable onPress={createCar} style={[general.btn, general.btnDark, general.pushBottom]}>
+                            <Text style={[general.btnTxt, general.whiteTxt, general.boldTxt]}>CREATE</Text>
+                        </Pressable>
+                    }
 
                     <View style={{marginBottom: 50}}></View>
                 </ScrollView>
