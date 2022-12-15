@@ -164,6 +164,7 @@ export default function RentCrud( { navigation, route } ) {
             setLoading(false);
 
             if(err.name == 'TypeError') {
+                clearInputs();
                 alert("Car has been created.")
             } else {
                 alert("Sorry there was an error with your request.")
@@ -476,8 +477,9 @@ export default function RentCrud( { navigation, route } ) {
                         setValue={setTires}
                         setItems={setTiresList}/>
                     </View>
-                    
-                    <Text style={[general.yellowTxt, general.boldTxt, general.pushBottom, general.pushTop]}>Optional Fields:</Text>
+                    {true ? <></> :
+                    <>
+                     <Text style={[general.yellowTxt, general.boldTxt, general.pushBottom, general.pushTop]}>Optional Fields:</Text>
 
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <MaterialCommunityIcons style={general.inputIcon} name="engine" size={27} color="#f9c746" />
@@ -485,13 +487,16 @@ export default function RentCrud( { navigation, route } ) {
                         onChangeText={setCc} value={cc} 
                         placeholder='Cylinder Capacity (cc)' placeholderTextColor="#FFF" />
                     </View>
-                    
+
                     <View style={[general.inputGroup, general.pushBottom]}>
                         <Ionicons style={general.inputIcon} name="speedometer-outline" size={27} color="#f9c746" />
                         <TextInput style={general.input} 
                         onChangeText={setKm} value={km} 
                         placeholder='Max speed (km)' placeholderTextColor="#FFF" />
                     </View>
+                    </>
+                    }
+                   
                     
                     { loading ?
                         <ActivityIndicator size="large" color="#7a6a52" />
