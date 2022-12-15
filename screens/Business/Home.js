@@ -57,8 +57,8 @@ export default function Profile( { navigation } ) {
     }
 
     useEffect(() => {
-       getUserLocation()
-       getCarsDB()
+       //getUserLocation()
+       //getCarsDB()
     }, [uLocation]);
 
     useEffect(() => {
