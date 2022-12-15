@@ -299,6 +299,6 @@ export default StyleSheet.create({
         height: windowHeight - 70
     },
     payHeight: {
-        height: windowHeight - 100
+        height: windowHeight - 150
     }
 });

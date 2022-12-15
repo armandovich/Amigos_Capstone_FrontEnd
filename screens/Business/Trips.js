@@ -47,7 +47,7 @@ export default function Trip( { navigation } ) {
                     <Pressable
                     style={[general.carBlock]}>
                         <View style={general.carBlockMedia}>
-                            <Image style={general.carBlockImg} source={{uri : fetchLink + '/uploads/cars/' +  item.photo}}/>
+                            <Image style={general.carBlockImg} source={{uri : fetchLink + '/uploads/cars/' +  item.car_photo}}/>
                         </View>
                         <View style={general.carBlockL}>
                             <Text style={[general.blockName]}>{item.car_name}</Text>

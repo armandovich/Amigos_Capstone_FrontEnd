@@ -30,6 +30,7 @@ export default function Checkout({navigation,route}) {
       },
     });
     const { clientSecret, error } = await response.json();
+
     return { clientSecret, error };
   };
 
@@ -39,13 +40,15 @@ export default function Checkout({navigation,route}) {
       Alert.alert("Please enter Complete card details and Email");
       return;
     }
+
     const billingDetails = {
       email: email,
     };
+
     //2.Fetch the intent client secret from the backend
     try {
       const { clientSecret, error } = await fetchPaymentIntentClientSecret();
-      console.log(clientSecret)
+      
       //2. confirm the payment
       if (error) {
         console.log("Unable to process payment");
@@ -54,6 +57,7 @@ export default function Checkout({navigation,route}) {
           paymentMethodType: "Card",
           billingDetails: billingDetails,
         });
+
         if (error) {
           alert(`Payment Confirmation Error ${error.message}`);
         } else if (paymentIntent) {
@@ -107,7 +111,7 @@ export default function Checkout({navigation,route}) {
                   placeholder="E-mail"
                   keyboardType="email-address"
                   value={email}
-                  onChange={value => setEmail()}
+                  onChangeText={setEmail}
                   style={general.input} placeholderTextColor="#FFF"/>
                 </View>
                             
