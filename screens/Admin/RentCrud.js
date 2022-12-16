@@ -239,6 +239,7 @@ export default function RentCrud( { navigation, route } ) {
         }).catch(function(error) { 
             setLoading(false);
         })
+        navigation.pop()
     };
 
     const clearInputs = () => {

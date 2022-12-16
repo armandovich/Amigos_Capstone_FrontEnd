@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet, Text, View, Pressable, TextInput, ActivityIndicator } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
@@ -94,6 +94,46 @@ export default function Checkout({navigation,route}) {
           }).catch((err) => {
             setIsLoading(false);
           });
+
+          /*const [carOwner, setCarOwner] = useState({})
+
+          const loadUser = async () => {
+            fetch(fetchLink + '/api/user/' + car.owner_id, {
+                method: 'GET'
+            }).then(res => res.json()).then(data => {
+                console.log(data);
+                setCarOwner(data);
+            }).catch(function(error) { 
+              console.log(error); 
+            })
+        };
+
+        console.log(carOwner)
+
+        await loadUser();*/
+
+          const chatData = {
+            avatar: car.photo,
+            first_name: "Daniel",
+            last_name: "Miolan",
+            renter_id: renter._id,
+            car_owner_id: car.owner_id
+        }
+
+        console.log(chatData)
+
+          fetch(fetchLink + '/api/chat/', {     
+            method: 'POST',
+            body: JSON.stringify(chatData),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            }).then(res => res.json()).then((data) => {
+              //console.log(data)
+              setIsLoading(false);
+            }).catch((err) => {
+              setIsLoading(false);
+            });
 
         }
       }
